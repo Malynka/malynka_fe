@@ -29,3 +29,5 @@ export {
   styledTheme,
   muiTheme
 };
+
+export type TStyledTheme = typeof styledTheme;
