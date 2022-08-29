@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import { Home, Clients } from './pages';
+import { FunctionComponent } from "react";
+import { Home, Clients } from '../pages';
 
 export interface IRoute {
   path: string;
