@@ -1,13 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { HomeContainer } from './styles';
+import { useDocumentTitle } from '@hooks';
 
 const Home: FunctionComponent = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    navigate('/clients');
-  }, []);
+  useDocumentTitle('Головна');
 
   return (
     <HomeContainer>
