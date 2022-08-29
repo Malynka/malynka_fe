@@ -7,14 +7,21 @@ import { useLocation } from 'react-router';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import routes from './routes';
 import { muiTheme, styledTheme } from './theme';
+import Menu from './Menu';
+import { AppContainer, PageMountPoint } from './styles';
 
 const App: FunctionComponent = () => {
   return (
-      <Routes>
-        {routes.map(({ path, Page }) => (
-          <Route key={path} path={path} element={<Page />} />
-        ))}
-      </Routes>
+    <AppContainer>
+      <Menu />
+      <PageMountPoint>
+        <Routes>
+          {routes.map(({ path, Page }) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Routes>
+      </PageMountPoint>
+    </AppContainer>
   );
 };
 
