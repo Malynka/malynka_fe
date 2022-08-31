@@ -95,6 +95,7 @@
     "@mui/material": "^5.10.2",
     "@mui/styled-engine-sc": "^5.10.1",
     "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
     "electron-squirrel-startup": "^1.0.0",
     "facepaint": "^1.2.1",
     "normalize.css": "^8.0.1",
