@@ -12,8 +12,14 @@
     "resolveJsonModule": true,
     "paths": {
       "@hooks": ["src/hooks"],
-      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
+      "@mui/styled-engine": ["node_modules/@mui/styled-engine-sc"],
+      "@types": ["src/types.ts"],
+      "@atoms": ["src/atoms"],
+      "@molecules": ["src/molecules"],
+      "@organisms": ["src/organisms"],
       "@pages": ["src/pages"],
+      "@theme": ["src/app/theme"],
+      "@typography": ["src/typography"],
       "*": ["node_modules/*"]
     },
     "jsx": "react"

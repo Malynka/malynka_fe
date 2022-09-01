@@ -1,6 +1,7 @@
 const path = require('path');
 const rules = require('./webpack.rules');
 const plugins = require('./webpack.plugins');
+const tsconfig = require('./tsconfig.json');
 
 const createAliasPath = (p) => path.join(__dirname, p);
 
@@ -15,11 +16,7 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
-    alias: {
-      '@mui/styled-engine': createAliasPath('node_modules/@mui/styled-engine-sc'),
-      '@hooks': createAliasPath('src/hooks'),
-      '@pages': createAliasPath('src/pages'),
-    },
+    alias: Object.fromEntries(Object.entries(tsconfig.compilerOptions.paths).map(([key, value]) => [key, createAliasPath(value[0])])),
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },
 };
