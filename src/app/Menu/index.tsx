@@ -20,6 +20,7 @@ const Menu: FunctionComponent<PropsWithChildren<IMenuProps>> = ({ data }) => {
       <MenuItemsContainer>
         {data.map((props) => (
           <MenuItem
+            key={props.name}
             {...props}
           />
         ))}
