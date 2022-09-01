@@ -1,18 +1,21 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, PropsWithChildren } from 'react';
 import { Headline } from '@typography';
-import { HeaderContainer } from './styles';
+import { HeaderContainer, ControlsWrapper } from './styles';
 
 export interface IHeaderProps {
   title: string;
 }
 
-const Header: FunctionComponent<IHeaderProps> = ({ title }) => {
+const Header: FunctionComponent<PropsWithChildren<IHeaderProps>> = ({ title, children }) => (
+  <HeaderContainer>
+    <Headline type="H2">{title}</Headline>
+    {children ? (
+      <ControlsWrapper>
+        {children}
+      </ControlsWrapper>
+    ) : null}
+  </HeaderContainer>
+);
 
-  return (
-    <HeaderContainer>
-      <Headline type="H2">{ title }</Headline>
-    </HeaderContainer>
-  );
-};
 
 export default Header;
