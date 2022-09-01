@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { HomeContainer } from './styles';
 import { useDocumentTitle } from '@hooks';
+import { IPageProps } from "../types";
 
-const Home: FunctionComponent = () => {
-  useDocumentTitle('Головна');
+const Home: FunctionComponent<IPageProps> = ({ name }) => {
+  useDocumentTitle(name);
 
   return (
     <HomeContainer>
