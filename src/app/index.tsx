@@ -1,6 +1,6 @@
 
 import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { useLocation } from 'react-router';
@@ -13,11 +13,11 @@ import { AppContainer, PageMountPoint } from './styles';
 const App: FunctionComponent = () => {
   return (
     <AppContainer>
-      <Menu />
+      <Menu data={routes.map(({ name, Icon, path }) => ({ Icon, name, path }))} />
       <PageMountPoint>
         <Routes>
-          {routes.map(({ path, Page }) => (
-            <Route key={path} path={path} element={<Page />} />
+          {routes.map(({ path, name, Page }) => (
+            <Route key={path} path={path} element={<Page name={name} />} />
           ))}
         </Routes>
       </PageMountPoint>
@@ -26,16 +26,18 @@ const App: FunctionComponent = () => {
 };
 
 
+const root = ReactDOM.createRoot(document.getElementById('malynka-app-root'));
+
 const render = () => {
-  ReactDOM.render(
+  root.render(
     <MuiThemeProvider theme={muiTheme}>
       <StyledThemeProvider theme={styledTheme}>
         <HashRouter>
           <App />
         </HashRouter>
       </StyledThemeProvider> 
-    </MuiThemeProvider>, 
-    document.body);
+    </MuiThemeProvider>
+  );
 };
 
 render();
