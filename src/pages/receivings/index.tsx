@@ -22,8 +22,12 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
           />
         }
         tableHeader={ 
-            <TableHeader width={621} headers={['Вага (кг)', 'Ціна (грн)', 'Сума (грн)', 'Всього (грн)']} />
+            <TableHeader width={600} headers={['Вага (кг)', 'Ціна (грн)', 'Сума (грн)', 'Всього (грн)']} />
         }
+        tableHeaderPosition={{
+          left: 196,
+          right: 24
+        }}
       />  
       
       <ReceivingsContainer>

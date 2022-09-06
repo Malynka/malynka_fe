@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const HeaderContainer = styled.header<{ isTableHeader: boolean }>`
   display: flex;
@@ -9,7 +9,7 @@ export const HeaderContainer = styled.header<{ isTableHeader: boolean }>`
   position: sticky;
   top: 0;
   left: 0;
-  background-color: ${({ theme }) => theme.colors.white.main};
+  background-color: ${({ theme }) => theme.colors.white.light};
   z-index: 9999;
 `;
 
@@ -18,13 +18,13 @@ export const ControlsWrapper = styled.div`
   column-gap: 16px;
 `;
 
-export const TableHeaderWrapper = styled.div`
+export const TableHeaderWrapper = styled.div<{ width?: string | number; tableHeaderPosition: { left: string | number; right: string | number } }>`
   position: absolute;
-  left: 0;
-  right: 0;
+  width: ${({ width }) => typeof width === 'number' ? `${width}px` : width};
+  ${({ tableHeaderPosition }) => css`
+    left: ${typeof tableHeaderPosition.left === 'number' ? `${tableHeaderPosition.left}px` : tableHeaderPosition.left};
+    right: ${typeof tableHeaderPosition.right === 'number' ? `${tableHeaderPosition.right}px` : tableHeaderPosition.right};
+  `}
   bottom: 0;
   transform: translateY(100%);
-  
-  padding-left: 196px;
-  padding-right: 24px;
 `;

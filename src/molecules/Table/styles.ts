@@ -7,10 +7,6 @@ export const TableContainer = styled.div<{ width: string | number }>`
 export const TableRow = styled.div`
   display: flex;
 
-  > div {
-    border-left: 1px solid ${({ theme }) => theme.colors.black.main};
-  }
-
   &:nth-child(2n) {
       background-color: ${({ theme }) => theme.colors.white.dark};
   }

@@ -22,7 +22,7 @@ const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({ client,
     <NameTableWrapper>
       <Body>{ client.name }</Body>
       <GroupTableWrapper>
-        <Table width={471} rows={rows} />
+        <Table width={450} rows={rows} />
         <AllCell>
           <Body>{ getSpacedDecimal(allSum) }</Body>
         </AllCell>

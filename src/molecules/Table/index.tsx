@@ -1,4 +1,5 @@
 import { TableCell } from '@atoms';
+import { getSpacedDecimal } from '@utils';
 import React, { FunctionComponent } from 'react';
 import { TableContainer, TableRow } from './styles';
 
@@ -14,7 +15,7 @@ const Table: FunctionComponent<ITableProps> = ({ width = '100%', rows }) => {
         rows.map((r, rIndex) => (
           <TableRow key={rIndex}>
             {r.map((item, index) => (
-              <TableCell key={`${index}-${item}`}>{item}</TableCell>
+              <TableCell key={`${index}-${item}`}>{typeof item === 'number' ? getSpacedDecimal(item) : item}</TableCell>
             ))}
           </TableRow>
         ))
