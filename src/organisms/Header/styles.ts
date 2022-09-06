@@ -10,7 +10,7 @@ export const HeaderContainer = styled.header<{ isTableHeader: boolean }>`
   top: 0;
   left: 0;
   background-color: ${({ theme }) => theme.colors.white.light};
-  z-index: 9999;
+  z-index: 1001;
 `;
 
 export const ControlsWrapper = styled.div`
