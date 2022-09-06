@@ -11,13 +11,16 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
 
   return (
     <>
-      <Header title={name}>
-        <RoundedButton
-          text="Додати клієнта"
-          icon={<AddIcon />}
-          variant="contained"
-        />
-      </Header>
+      <Header
+        title={name}
+        controls={
+          <RoundedButton
+            text="Додати клієнта"
+            icon={<AddIcon />}
+            variant="contained"
+          />
+        }
+      />
       <ClientsContainer>
         Clients Page
       </ClientsContainer>

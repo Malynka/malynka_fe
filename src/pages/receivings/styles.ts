@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const ReceivingsContainer = styled.div`
-  padding-left: 24px;
-  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
   padding-bottom: 24px;
+  flex: 1;
 `;
