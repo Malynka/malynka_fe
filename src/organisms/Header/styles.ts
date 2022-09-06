@@ -15,6 +15,7 @@ export const HeaderContainer = styled.header<{ isTableHeader: boolean }>`
 
 export const ControlsWrapper = styled.div`
   display: flex;
+  align-items: center;
   column-gap: 16px;
 `;
 

@@ -24,6 +24,10 @@ export const DataGrid = styled(MuiDataGrid)`
       &:nth-of-type(2n) {
         background-color: ${({ theme }) => theme.colors.white.dark};
       }
+
+      svg {
+        color: ${({ theme }) => theme.colors.black.light};
+      }
     }
   }
 `;

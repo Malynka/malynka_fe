@@ -48,4 +48,8 @@ export const ControlsWrapper = styled.div`
     width: 90px;
     margin-left: 24px;
   }
+
+  svg {
+    color: ${({ theme }) => theme.colors.black.light};
+  }
 `;
