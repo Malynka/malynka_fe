@@ -20,6 +20,7 @@
       "@pages": ["src/pages"],
       "@theme": ["src/app/theme"],
       "@typography": ["src/typography"],
+      "@utils": ["src/utils.ts"],
       "*": ["node_modules/*"]
     },
     "jsx": "react"
