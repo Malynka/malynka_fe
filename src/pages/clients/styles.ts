@@ -19,10 +19,21 @@ export const DataGrid = styled(MuiDataGrid)`
     }
 
     .${gridClasses.row} {
+      max-height: unset !important;
       background-color: ${({ theme }) => theme.colors.white.main};
 
       &:nth-of-type(2n) {
         background-color: ${({ theme }) => theme.colors.white.dark};
+      }
+
+      .${gridClasses.cell} {
+        max-height: unset !important;
+
+        .${gridClasses.cellContent} {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          padding: 8px 0;
+        }
       }
 
       svg {
@@ -30,4 +41,11 @@ export const DataGrid = styled(MuiDataGrid)`
       }
     }
   }
+`;
+
+export const InputsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
 `;
