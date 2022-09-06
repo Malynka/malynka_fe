@@ -1,7 +1,7 @@
 import styled, { css, DefaultTheme, ThemedStyledFunction, StyledInterface } from 'styled-components';
 import { IExternalTypographyProps, IInternalTypographyProps } from './types';
 
-const getStyles = (props: Omit<IInternalTypographyProps, 'as'>) => css`
+export const getStyles = (props: Omit<IInternalTypographyProps, 'as'>) => css`
   font-size: ${props.fontSize}px;
   font-weight: ${props.fontWeight};
   line-height: ${props.lineHeight}px;

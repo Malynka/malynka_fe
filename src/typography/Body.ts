@@ -1,6 +1,7 @@
-import { IInternalTypographyProps } from './types';
+import { StyledComponent, StyledInterface, DefaultTheme } from 'styled-components';
+import { IInternalTypographyProps, IExternalTypographyProps } from './types';
 import { styledTheme } from '@theme';
-import { getTypographyComponent } from './utils';
+import { getTypographyComponent, getStyles } from './utils';
 
 const styles: IInternalTypographyProps = {
   fontSize: 16,
@@ -9,6 +10,12 @@ const styles: IInternalTypographyProps = {
   letterSpacing: 0.5
 };
 
-const Body = getTypographyComponent(styles, 'span');
+type TypographyComponent = StyledComponent<keyof StyledInterface, DefaultTheme, IExternalTypographyProps, never> & { getStyles: () => ReturnType<typeof getStyles> };
+
+const Body: TypographyComponent = Object.assign(getTypographyComponent(styles, 'span'), {
+  getStyles: () => getStyles(styles)
+});
+
+
 
 export default Body;
