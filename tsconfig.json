@@ -21,6 +21,7 @@
       "@theme": ["src/app/theme"],
       "@typography": ["src/typography"],
       "@utils": ["src/utils.ts"],
+      "@middleware": ["src/middleware"],
       "*": ["node_modules/*"]
     },
     "jsx": "react"
