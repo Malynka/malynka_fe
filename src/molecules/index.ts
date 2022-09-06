@@ -4,6 +4,8 @@ import PlateIconButton from "./PlateIconButton";
 import SmallSelect from "./SmallSelect";
 import StatPlate from "./StatPlate";
 import RoundedButton from "./RoundedButton";
+import Table from './Table';
+import TableHeader from "./TableHeader";
 
 export {
   Logo,
@@ -12,4 +14,6 @@ export {
   SmallSelect,
   StatPlate,
   RoundedButton,
+  Table,
+  TableHeader,
 };
