@@ -6,6 +6,7 @@ import StatPlate from "./StatPlate";
 import RoundedButton from "./RoundedButton";
 import Table from './Table';
 import TableHeader from "./TableHeader";
+import Input from './Input';
 
 export {
   Logo,
@@ -16,4 +17,5 @@ export {
   RoundedButton,
   Table,
   TableHeader,
+  Input,
 };
