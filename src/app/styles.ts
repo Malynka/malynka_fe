@@ -12,5 +12,8 @@ export const PageMountPoint = styled.main`
   position: relative;
   height: 100%;
   max-height: 100vh;
+  min-height: 100vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 `;

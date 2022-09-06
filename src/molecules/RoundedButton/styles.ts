@@ -3,6 +3,7 @@ import { Button, buttonClasses } from '@mui/material';
 
 export const MuiButton = styled(Button)`
   &.${buttonClasses.root} {
+    min-width: 200px;
     text-transform: initial;
     color: ${({ theme }) => theme.colors.white.main};
     height: 36px;
