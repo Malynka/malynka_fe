@@ -1,8 +1,6 @@
-import { FunctionComponent } from "react";
-import styled from "styled-components";
 import { styledTheme } from '@theme';
-import { IInternalTypographyProps } from "./types";
-import { getTypographyComponentWithTypes } from "./utils";
+import { IInternalTypographyProps, TypographyTypedComponent } from "./types";
+import { getTypographyComponentWithTypes, getStyles } from "./utils";
 
 const { font: { weight } } = styledTheme; 
 
@@ -39,6 +37,11 @@ const headlineTypographyStyles: Record<THeadlineType, IInternalTypographyProps> 
   }
 };
 
-const Headline = getTypographyComponentWithTypes(headlineTypographyStyles);
+const Headline: TypographyTypedComponent<THeadlineType> = Object.assign(
+  getTypographyComponentWithTypes(headlineTypographyStyles),
+  {
+    getStyles: (type: THeadlineType) => getStyles(headlineTypographyStyles[type])
+  }
+);
 
 export default Headline;
