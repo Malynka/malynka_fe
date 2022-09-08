@@ -99,6 +99,7 @@
     "@mui/x-date-pickers": "^5.0.0",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.5",
     "electron-squirrel-startup": "^1.0.0",
     "facepaint": "^1.2.1",
     "normalize.css": "^8.0.1",
