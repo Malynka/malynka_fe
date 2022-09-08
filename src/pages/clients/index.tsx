@@ -151,9 +151,6 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
     }
   ];
 
-  const clientNameInputRef = useRef<HTMLInputElement>(null);
-  const clientNoteInputRef = useRef<HTMLInputElement>(null);
-
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     const tagName = (event.target as HTMLDivElement).tagName;
 
@@ -203,7 +200,6 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
       >
         <InputsWrapper>
           <Input
-            inputRef={clientNameInputRef}
             autoFocus
             placeholder="Назва клієнта"
             onChange={handleClientNameChange}
@@ -218,7 +214,6 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
             }}
           />
           <Input
-            inputRef={clientNoteInputRef}
             placeholder="Примітка"
             multiline
             rows={7}
@@ -241,7 +236,7 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
         onConfirm={handleDeleteClientConfirm}
         onCancel={handleDeleteClientCancel}
       >
-        <Body>Ви впевнені, що хочете видалити клієнта <b>{ clientToDelete?.name }</b></Body>
+        <Body>Ви впевнені, що хочете видалити клієнта <b>{ clientToDelete?.name }</b>? Усі пов'язані з ним прийоми будуть видалені.</Body>
       </Dialog>
     </>
   );
