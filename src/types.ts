@@ -4,3 +4,21 @@ export interface IClient {
   name: string;
   note: string;
 }
+
+export interface IOwnReceiving {
+  _id: string;
+  weight: number;
+  timestamp: number;
+}
+
+export interface IReceiving {
+  _id: string;
+  client: IClient;
+  records: {
+    weight: number;
+    price: number;
+  }[];
+  timestamp: number;
+  totalWeight: number;
+  totalPrice: number;
+}
