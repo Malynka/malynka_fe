@@ -8,19 +8,20 @@ import { OwnReceivingRowContainer, ControlsWrapper } from './styles';
 
 
 export interface IOwnReceivingRowProps {
-  id: string;
   weight: number;
   timestamp: number;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const OwnReceivingRow: FunctionComponent<IOwnReceivingRowProps> = ({ id, weight, timestamp }) => (
+const OwnReceivingRow: FunctionComponent<IOwnReceivingRowProps> = ({ weight, timestamp, onEdit, onDelete }) => (
   <OwnReceivingRowContainer>
     <Headline type="H4">{ getSpacedDecimal(weight) } кг</Headline>
     <ControlsWrapper>
-      <IconButton>
+      <IconButton onClick={onEdit}>
         <EditIcon />
       </IconButton>
-      <IconButton>
+      <IconButton onClick={onDelete}>
         <DeleteIcon />
       </IconButton>
       <Subtitle>
