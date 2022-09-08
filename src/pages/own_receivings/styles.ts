@@ -11,3 +11,9 @@ export const AllWeightContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const InputsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  column-gap: 24px;
+`;
