@@ -1,7 +1,11 @@
 
 import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom/client';
+import dayjs from 'dayjs';
+import 'dayjs/locale/uk';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
+import { LocalizationProvider,  } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { useLocation } from 'react-router';
 import { HashRouter, Routes, Route } from 'react-router-dom';
@@ -32,9 +36,11 @@ const render = () => {
   root.render(
     <MuiThemeProvider theme={muiTheme}>
       <StyledThemeProvider theme={styledTheme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={dayjs.locale('uk')}>
         <HashRouter>
           <App />
         </HashRouter>
+        </LocalizationProvider>
       </StyledThemeProvider> 
     </MuiThemeProvider>
   );
