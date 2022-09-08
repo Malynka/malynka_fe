@@ -18,10 +18,10 @@ export interface IReceivingTableRowProps {
 }
 
 const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({ client, rows, allSum, timestamp }) => (
-  <ReceivingTableRowContainer>
+  <ReceivingTableRowContainer rows={rows.length}>
     <NameTableWrapper>
       <Body>{ client.name }</Body>
-      <GroupTableWrapper>
+      <GroupTableWrapper rows={rows.length}>
         <Table width={450} rows={rows} />
         <AllCell>
           <Body>{ getSpacedDecimal(allSum) }</Body>
