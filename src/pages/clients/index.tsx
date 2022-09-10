@@ -7,13 +7,13 @@ import AddIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import PersonIcon from '@mui/icons-material/PersonOutlineRounded';
 import NoteIcon from '@mui/icons-material/StickyNote2Rounded';
 import { Body } from '@typography';
-import { RoundedButton, Input } from "@molecules";
+import { RoundedButton, Input, DataGrid } from "@molecules";
 import { Header, Dialog } from "@organisms";
 import { useDocumentTitle } from "@hooks";
 import { getClients, createClient, updateClient, deleteClient } from "@middleware";
 import { IClient } from "@types";
 import { IPageProps } from "../types";
-import { ClientsContainer, DataGrid, InputsWrapper } from "./styles";
+import { ClientsContainer, InputsWrapper } from "./styles";
 
 const Clients: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
