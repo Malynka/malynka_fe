@@ -8,7 +8,7 @@ import { RoundedButton, Input } from '@molecules';
 import { Header, OwnReceivingRow, Dialog, DatePicker } from '@organisms';
 import { getOwnReceivings, createOwnReceiving, updateOwnReceiving, deleteOwnReceiving } from '@middleware';
 import { useDocumentTitle } from '@hooks';
-import { getSpacedDecimal } from '@utils';
+import { getSpacedDecimal, FLOAT_NUMBER_REGEX } from '@utils';
 import { IOwnReceiving } from '@types';
 import { IPageProps } from "../types";
 import { AllWeightContainer, OwnReceivingsContainer, InputsWrapper } from './styles'; 
@@ -72,7 +72,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleWeightChange: ChangeEventHandler<HTMLInputElement> = (event) => { 
-    if (event.target.value === '' || /^([0-9]+(\.[0-9]*)?|\.[0-9]+)$/.test(event.target.value)) {
+    if (event.target.value === '' || FLOAT_NUMBER_REGEX.test(event.target.value)) {
       setWeight(event.target.value);
     }
   };
