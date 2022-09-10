@@ -1,25 +1,41 @@
 import React, { FunctionComponent, PropsWithChildren, MouseEventHandler, useEffect } from 'react';
-import { DialogProps, DialogContent } from '@mui/material';
+import { DialogProps, DialogContent, DialogActions } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { RoundedButton } from '@molecules';
-import { StyledDialog, StyledTitle, ButtonsWrapper } from './styles';
+import { StyledDialog, StyledTitle, ButtonsWrapper, PreButtonsComponentWrapper } from './styles';
 import { KeyboardEventHandler } from 'react';
 
 export interface IDialogProps extends Pick<DialogProps, 'open'> {
   title: string;
   disableConfirm?: boolean; 
+  preButtonsComponent?: JSX.Element;
   onConfirm: () => void;
   onCancel: () => void;
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 }
 
-const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({ open, title, disableConfirm, onKeyDown, onConfirm, onCancel, children }) => {
+const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({
+  open,
+  title,
+  disableConfirm,
+  onKeyDown,
+  onConfirm,
+  onCancel,
+  preButtonsComponent,
+  children
+}) => {
   return (
     <StyledDialog open={open} onClose={onCancel} onKeyDown={onKeyDown}>
       <StyledTitle>{title}</StyledTitle>
       <DialogContent >
         {children}
+        
+      </DialogContent>
+      <DialogActions>
+        <PreButtonsComponentWrapper>
+          {preButtonsComponent}
+        </PreButtonsComponentWrapper>
         <ButtonsWrapper>
           <RoundedButton
             text="Підвердити"
@@ -36,7 +52,7 @@ const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({ open, titl
             onClick={onCancel}
           />
         </ButtonsWrapper>
-      </DialogContent>
+      </DialogActions>
     </StyledDialog>
   );
 };
