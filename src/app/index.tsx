@@ -7,7 +7,6 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material';
 import { LocalizationProvider,  } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { useLocation } from 'react-router';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import routes from './routes';
 import { muiTheme, styledTheme } from './theme';
