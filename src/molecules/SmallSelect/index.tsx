@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
+import ClientIcon from '@mui/icons-material/Person2Rounded';
 import { InputLabel, SelectChangeEvent } from '@mui/material';
 import {
   MuiFormControl,
@@ -12,12 +13,14 @@ export interface IOption {
 }
 
 export interface ISmallSelectProps {
+  defaultLabel?: string;
   options: IOption[];
   option: IOption['value'];
   onChange: (event: SelectChangeEvent) => void; 
 }
 
 const SmallSelect: FunctionComponent<ISmallSelectProps> = ({
+  defaultLabel,
   options,
   option,
   onChange
@@ -28,7 +31,7 @@ const SmallSelect: FunctionComponent<ISmallSelectProps> = ({
         value={option}
         onChange={onChange}
       >
-        {options.map(({ label, value }) => (
+        {(defaultLabel ? [{ label: defaultLabel, value: 'default' }, ...options] : options).map(({ label, value }) => (
           <MuiMenuItem key={label} value={value}>{ label }</MuiMenuItem>
         ))}
       </MuiSelect>

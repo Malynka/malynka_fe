@@ -3,8 +3,6 @@ import { FormControl, formControlClasses, inputBaseClasses, filledInputClasses, 
 
 export const MuiFormControl = styled(FormControl)`
   &.${formControlClasses.root} {
-    min-width: 130px;
-
     .${inputBaseClasses.root} {
       border-radius: 28px;
 
@@ -22,8 +20,16 @@ export const MuiSelect = styled(Select)`
     align-items: center;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 24px;
-    border-radius: 28px;
+    padding-left: 12px;
+    border-radius: 43px;
+  }
+  
+  > .${selectClasses.select}.${selectClasses.select}.${selectClasses.select} {
+    padding-right: 52px;
+  }
+
+  .${selectClasses.icon} {
+    margin-right: 16px;
   }
 `;
 
