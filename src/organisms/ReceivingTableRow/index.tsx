@@ -5,41 +5,50 @@ import DeleteIcon from '@mui/icons-material/DeleteRounded';
 import { Body, Subtitle } from '@typography';
 import { Table } from '@molecules';
 import { getSpacedDecimal, getFormattedDate } from '@utils';
+import { IClient } from '@types';
 import { ReceivingTableRowContainer, NameTableWrapper, GroupTableWrapper, AllCell, ControlsWrapper } from './styles';
 
 export interface IReceivingTableRowProps {
-  client: {
-    _id: string;
-    name: string;
-  };
+  client: IClient;
   rows: number[][];
   allSum: number;
   timestamp: number;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({ client, rows, allSum, timestamp }) => (
-  <ReceivingTableRowContainer rows={rows.length}>
-    <NameTableWrapper>
-      <Body>{ client.name }</Body>
-      <GroupTableWrapper rows={rows.length}>
-        <Table width={450} rows={rows} />
-        <AllCell>
-          <Body>{ getSpacedDecimal(allSum) }</Body>
-        </AllCell>
-      </GroupTableWrapper>
-    </NameTableWrapper>
-    <ControlsWrapper>
-      <IconButton>
-        <EditIcon />
-      </IconButton>
-      <IconButton>
-        <DeleteIcon />
-      </IconButton>
-      <Subtitle>
-        {getFormattedDate(timestamp)}
-      </Subtitle>
-    </ControlsWrapper>
-  </ReceivingTableRowContainer>
-);
+const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({
+  client,
+  rows,
+  allSum,
+  timestamp,
+  onEdit,
+  onDelete
+}) => {
+  return (
+    <ReceivingTableRowContainer rows={rows.length}>
+      <NameTableWrapper>
+        <Body>{client.name}</Body>
+        <GroupTableWrapper rows={rows.length}>
+          <Table width={450} rows={rows} />
+          <AllCell>
+            <Body>{getSpacedDecimal(allSum)}</Body>
+          </AllCell>
+        </GroupTableWrapper>
+      </NameTableWrapper>
+      <ControlsWrapper>
+        <IconButton onClick={onEdit}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={onDelete}>
+          <DeleteIcon />
+        </IconButton>
+        <Subtitle>
+          {getFormattedDate(timestamp)}
+        </Subtitle>
+      </ControlsWrapper>
+    </ReceivingTableRowContainer>
+  );
+};
 
 export default ReceivingTableRow;
