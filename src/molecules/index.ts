@@ -7,6 +7,7 @@ import RoundedButton from "./RoundedButton";
 import Table from './Table';
 import TableHeader from "./TableHeader";
 import Input from './Input';
+import DataGrid from './DataGrid';
 
 export {
   Logo,
@@ -18,4 +19,5 @@ export {
   Table,
   TableHeader,
   Input,
+  DataGrid
 };
