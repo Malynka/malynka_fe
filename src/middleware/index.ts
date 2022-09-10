@@ -9,6 +9,7 @@ const server = axios.create({
 const CLIENTS_BASEPATH = 'clients';
 const OWN_RECEIVINGS_BASEPATH = 'own_receivings';
 const RECEIVINGS_BASEPATH = 'receivings';
+const RAPORT_BASEPATH = 'raport';
 
 export const getClients = () => server.get<IClient[]>(CLIENTS_BASEPATH);
 
@@ -37,3 +38,20 @@ export const updateOwnReceiving = (receiving: IOwnReceiving) => server.put<IOwnR
 export const deleteOwnReceiving = (id: string) => server.delete<IOwnReceiving>(`${OWN_RECEIVINGS_BASEPATH}/${id}`);
 
 export const getReceivings = () => server.get<IReceiving[]>(RECEIVINGS_BASEPATH);
+
+export const getReceivingsByYear = (year: number) => server.get<IReceiving[]>(`${RECEIVINGS_BASEPATH}/year/${year}`);
+
+export const createReceiving = (receiving: Pick<IReceiving, 'records' | 'timestamp'> & { client: string }) => server.post<IReceiving>(RECEIVINGS_BASEPATH, receiving);
+
+export const updateReceiving = (receiving: Omit<IReceiving, 'client' | 'totalWeight' | 'totalPrice'> & { client: string }) => server.put<IReceiving>(RECEIVINGS_BASEPATH, {
+  id: receiving._id,
+  newData: {
+    client: receiving.client,
+    records: receiving.records,
+    timestamp: receiving.timestamp,
+  }
+});
+
+export const deleteReceiving = (id: string) => server.delete<IReceiving>(`${RECEIVINGS_BASEPATH}/${id}`);
+
+export const getYears = () => server.get<number[]>(`${RAPORT_BASEPATH}/years`);
