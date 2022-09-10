@@ -8,3 +8,5 @@ export const getFormattedDate = (timestamp: number) => {
 
   return`${day / 10 >= 1 ? day : '0' + day}.${month / 10 >= 1 ? month : '0' + month}.${date.getFullYear()}`;
 };
+
+export const FLOAT_NUMBER_REGEX = /^([0-9]+(\.[0-9]*)?|\.[0-9]+)$/;
