@@ -3,6 +3,7 @@ import ReceivingTableRow from "./ReceivingTableRow";
 import OwnReceivingRow from "./OwnReceivingRow";
 import Dialog from './Dialog';
 import DatePicker from "./DatePicker";
+import ReceivingWritableTable from "./ReceivingWritableTable";
 
 export {
   Header,
@@ -10,4 +11,5 @@ export {
   OwnReceivingRow,
   Dialog,
   DatePicker,
+  ReceivingWritableTable,
 };
