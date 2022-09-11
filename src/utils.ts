@@ -1,4 +1,16 @@
-export const getSpacedDecimal = (num: number) => String(num).split('').reverse().reduce((acc, curr, index) => acc + curr + ((index + 1) % 3 === 0 ? '\xa0' : ''), '').split('').reverse().join('').trim();
+const splitDecimal = (num: number) => String(num).split('').reverse().reduce((acc, curr, index) => acc + curr + ((index + 1) % 3 === 0 ? '\xa0' : ''), '').split('').reverse().join('').trim();
+export const getSpacedDecimal = (num: number) => {
+  const stringNum = String(num);
+
+  const dotIndex = stringNum.indexOf('.');
+  if (dotIndex === -1) {
+    return splitDecimal(num);
+  } else {
+    const intPart = Number(stringNum.slice(0, dotIndex));
+
+    return splitDecimal(intPart) + stringNum.slice(dotIndex);
+  }
+};
 
 export const getFormattedDate = (timestamp: number) => {
   const date = new Date(timestamp);
