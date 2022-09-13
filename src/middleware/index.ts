@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IClient, IOwnReceiving, IReceiving } from "@types";
+import { IClient, IOwnReceiving, IReceiving, IStats } from "@types";
 
 const server = axios.create({
   baseURL: 'http://localhost:3119',
@@ -55,3 +55,5 @@ export const updateReceiving = (receiving: Omit<IReceiving, 'client' | 'totalWei
 export const deleteReceiving = (id: string) => server.delete<IReceiving>(`${RECEIVINGS_BASEPATH}/${id}`);
 
 export const getYears = () => server.get<number[]>(`${RAPORT_BASEPATH}/years`);
+
+export const getStats = (year: number | '') => server.get<IStats>(`${RAPORT_BASEPATH}/stats/${year}`);

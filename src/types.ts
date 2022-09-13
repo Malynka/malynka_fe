@@ -22,3 +22,11 @@ export interface IReceiving {
   totalWeight: number;
   totalPrice: number;
 }
+
+export interface IStats {
+  totalWeight: number;
+  totalPrice: number;
+  minPrice: number;
+  maxPrice: number;
+  avgPrice: number;
+}
