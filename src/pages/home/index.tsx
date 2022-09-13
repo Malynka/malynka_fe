@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { Headline } from '@typography';
 import { PlateIconButton, SmallSelect, StatPlate } from '@molecules';
 import { Header } from '@organisms';
 import { useDocumentTitle } from '@hooks';
+import { getYears, getStats } from '@middleware';
+import { IStats } from '@types';
 import {
   HomeContainer,
   QuickAccessButtonsWrapper,
@@ -13,15 +15,32 @@ import {
 } from './styles';
 import { IPageProps } from "../types";
 
-const options = [2019, 2020, 2021, 2022].map((year) => ({
-  label: year,
-  value: year
-}));
-
 const Home: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
 
-  const [option, setOption] = useState<string | number>(options[2].value);
+  const [years, setYears] = useState<number[]>([]);
+  const [year, setYear] = useState<number | 'default'>('default');
+  const [stats, setStats] = useState<IStats | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    getYears().then(({ data }) => {
+      setYears(data);
+      setMounted(true);
+    });
+  }, []);
+  
+  useEffect(() => {
+    setYear(years[0] || 'default');
+  }, [years]);
+
+  useEffect(() => {
+    if (mounted) {
+      getStats(year === 'default' ? '' : year).then(({ data }) => {
+        setStats(data);
+      });
+    }
+  }, [year, mounted]);
 
   return (
     <>
@@ -34,10 +53,15 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
         <StatsTitleYearWrapper>
           <Headline type="H4" margin="24px 0">Статистика</Headline>
           <SmallSelect
-            options={options}
-            option={option}
+            options={years.map((y) => ({
+              label: y,
+              value: y
+            }))}
+            option={year}
+            defaultLabel="За всі роки"
             onChange={(event) => {
-              setOption(event.target.value);
+              const value = event.target.value;
+              setYear(value === 'default' ? value : Number(event.target.value));
             }}
           />
         </StatsTitleYearWrapper>
@@ -46,29 +70,29 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
             <StatsPlatesRow>
               <StatPlate
                 label="Середня ціна"
-                value="50"
+                value={stats?.avgPrice || 0}
                 unit="грн / кг"
               />
               <StatPlate
                 label="Мінімальна ціна"
-                value="38"
+                value={stats?.minPrice || 0}
                 unit="грн / кг"
               />
               <StatPlate
                 label="Максимальна ціна"
-                value="120"
+                value={stats?.maxPrice || 0}
                 unit="грн / кг"
               />
             </StatsPlatesRow>
             <StatsPlatesRow>
               <StatPlate
-                label="Вага"
-                value="25 487"
+                label="Закуплена вага"
+                value={stats?.totalWeight || 0}
                 unit="кг"
               />
               <StatPlate
                 label="Витрачено на закупівлю"
-                value="230 458"
+                value={stats?.totalPrice || 0}
                 unit="грн"
               />
             </StatsPlatesRow>
