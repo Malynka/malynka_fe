@@ -1,6 +1,22 @@
 import { FunctionComponent } from "react";
-import { IPageProps, Home, Clients, OwnReceivings, Receivings, Report } from '@pages';
-import { IMenuIconProps, HomeIcon, TakingIcon, ReportIcon, OwnTakingIcon, ClientsIcon } from "@atoms";
+import {
+  IPageProps,
+  Home,
+  Clients,
+  OwnReceivings,
+  Receivings,
+  Report,
+  Sales
+} from '@pages';
+import {
+  IMenuIconProps,
+  HomeIcon,
+  TakingIcon,
+  ReportIcon,
+  OwnTakingIcon,
+  ClientsIcon,
+  SalesIcon,
+} from "@atoms";
 
 export interface IRoute {
   name: string;
@@ -39,6 +55,12 @@ const routes: IRoute[] = [
     path: '/own_receivings',
     Page: OwnReceivings,
     Icon: OwnTakingIcon
+  },
+  {
+    name: 'Продажі',
+    path: '/sales',
+    Page: Sales,
+    Icon: SalesIcon
   }
 ];
 
