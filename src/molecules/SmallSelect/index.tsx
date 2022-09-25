@@ -14,7 +14,7 @@ export interface IOption {
 
 export interface ISmallSelectProps {
   defaultLabel?: string;
-  options: IOption[];
+  options: readonly IOption[];
   option: IOption['value'];
   onChange: (event: SelectChangeEvent) => void; 
 }
