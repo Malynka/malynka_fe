@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IClient, IOwnReceiving, IReceiving, IStats } from "@types";
+import { IClient, IOwnReceiving, IReceiving, ISale, IStats } from "@types";
 
 const server = axios.create({
   baseURL: 'http://localhost:3119',
@@ -10,6 +10,7 @@ const CLIENTS_BASEPATH = 'clients';
 const OWN_RECEIVINGS_BASEPATH = 'own_receivings';
 const RECEIVINGS_BASEPATH = 'receivings';
 const RAPORT_BASEPATH = 'raport';
+const SALE_BASEPATH = 'sales';
 
 export const getClients = () => server.get<IClient[]>(CLIENTS_BASEPATH);
 
@@ -57,3 +58,25 @@ export const deleteReceiving = (id: string) => server.delete<IReceiving>(`${RECE
 export const getYears = () => server.get<number[]>(`${RAPORT_BASEPATH}/years`);
 
 export const getStats = (year: number | '') => server.get<IStats>(`${RAPORT_BASEPATH}/stats/${year}`);
+
+export const getReportByRange = (start: number, end?: number, client?: string) => server.get<Blob>(`${RAPORT_BASEPATH}/range`, {
+  params: {
+    start, end, client
+  },
+  responseType: 'blob'
+});
+
+export const getSalesByYear = (year: string = '') => server.get<ISale[]>(`${SALE_BASEPATH}/year/${year}`);
+
+export const createSale = (sale: Omit<ISale, '_id'>) => server.post<ISale>(SALE_BASEPATH, sale);
+
+export const updateSale = (sale: ISale) => server.put<ISale>(SALE_BASEPATH, {
+  id: sale._id,
+  newData: {
+    weight: sale.weight,
+    price: sale.price,
+    timestamp: sale.timestamp
+  }
+});
+
+export const deleteSale = (id: string) => server.delete<ISale>(`${SALE_BASEPATH}/${id}`);

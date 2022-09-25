@@ -26,7 +26,16 @@ export interface IReceiving {
 export interface IStats {
   totalWeight: number;
   totalPrice: number;
+  soldWeight: number;
+  earned: number;
   minPrice: number;
   maxPrice: number;
   avgPrice: number;
+}
+
+export interface ISale {
+  _id: string;
+  weight: number;
+  price: number;
+  timestamp: number;
 }
