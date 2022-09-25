@@ -10,7 +10,7 @@ import { IStats } from '@types';
 import {
   HomeContainer,
   QuickAccessButtonsWrapper,
-  StatsPlatesRow,
+  StatsPlatesColumn,
   StatsTitleYearWrapper
 } from './styles';
 import { IPageProps } from "../types";
@@ -65,9 +65,14 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
             }}
           />
         </StatsTitleYearWrapper>
-        <Grid container>
-          <Grid display="flex" flexDirection="column" rowGap="20px" item xs={12} lg={8}>
-            <StatsPlatesRow>
+        <Grid container gap="16px">
+          <Grid item xs={2}>
+            <StatsPlatesColumn>
+              <StatPlate
+                label="Максимальна ціна"
+                value={stats?.maxPrice || 0}
+                unit="грн / кг"
+              />
               <StatPlate
                 label="Середня ціна"
                 value={stats?.avgPrice || 0}
@@ -77,14 +82,11 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
                 label="Мінімальна ціна"
                 value={stats?.minPrice || 0}
                 unit="грн / кг"
-              />
-              <StatPlate
-                label="Максимальна ціна"
-                value={stats?.maxPrice || 0}
-                unit="грн / кг"
-              />
-            </StatsPlatesRow>
-            <StatsPlatesRow>
+              />      
+            </StatsPlatesColumn>
+          </Grid>
+          <Grid item xs={3}>
+            <StatsPlatesColumn>
               <StatPlate
                 label="Закуплена вага"
                 value={stats?.totalWeight || 0}
@@ -95,7 +97,35 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
                 value={stats?.totalPrice || 0}
                 unit="грн"
               />
-            </StatsPlatesRow>
+            </StatsPlatesColumn>
+          </Grid>
+          <Grid item xs={3}>
+            <StatsPlatesColumn>
+              <StatPlate
+                label="Продано"
+                value={stats?.soldWeight || 0}
+                unit="кг"
+              />
+              <StatPlate
+                label="Зароблено"
+                value={stats?.earned || 0}
+                unit="грн"
+              />
+            </StatsPlatesColumn>
+          </Grid>
+          <Grid item xs={3}>
+            <StatsPlatesColumn>
+              <StatPlate
+                label="Залишок"
+                value={(stats?.totalWeight || 0) - (stats?.soldWeight || 0)}
+                unit="кг"
+              />
+              <StatPlate
+                label="Прибуток"
+                value={(stats?.earned || 0) - (stats?.totalPrice || 0)}
+                unit="грн"
+              />
+            </StatsPlatesColumn>
           </Grid>
         </Grid>
       </HomeContainer>

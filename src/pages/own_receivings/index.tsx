@@ -176,6 +176,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
             onChange={(newValue) => {
               setDate(newValue);
             }}
+            minDate={dayjs('01-01-2018')}
           />
 
         </InputsWrapper>

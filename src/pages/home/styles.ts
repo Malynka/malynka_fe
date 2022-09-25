@@ -19,13 +19,10 @@ export const StatsTitleYearWrapper = styled.div`
   align-items: center;
 `;
 
-export const StatsPlatesRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  column-gap: 16px;
+export const StatsPlatesColumn = styled.div`
   flex: 1;
 
-  > div {
-    flex: 1;
+  > div:not(:last-of-type) {
+    margin-bottom: 16px;
   }
 `;

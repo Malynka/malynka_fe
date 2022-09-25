@@ -13,7 +13,13 @@ import { getReceivingsByYear, getYears, getClients, createReceiving, updateRecei
 import { IClient, IReceiving } from '@types';
 import { getSpacedDecimal } from '@utils';
 import { IPageProps } from "../types";
-import { ReceivingsContainer, InputsWrapper, CountersWrapper, CounterContainer } from './styles';
+import {
+  ReceivingsContainer,
+  InputsWrapper,
+  CountersWrapper,
+  CounterContainer,
+  LoaderWrapper
+} from './styles';
 import uniqueId from 'lodash.uniqueid';
 
 
@@ -235,7 +241,11 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
               onEdit={handleEditReceivingButtonClick(_id)}
               onDelete={handleDeleteReceivingButtonClick(_id)}
             />
-          )) : <CircularProgress color="primary" />}
+          )) : (
+          <LoaderWrapper>
+            <CircularProgress color="primary" />
+          </LoaderWrapper>
+        )}
       </ReceivingsContainer>
       <Dialog
         title={`${dialogMode === 'create' ? 'Додати' : 'Редагувати'} прийом`}
@@ -275,6 +285,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
             onChange={(newValue) => {
               setDate(newValue);
             }}
+            minDate={dayjs('01-01-2018')}
           />
         </InputsWrapper>
         <ReceivingWritableTable
