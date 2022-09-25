@@ -8,6 +8,7 @@ import Table from './Table';
 import TableHeader from "./TableHeader";
 import Input from './Input';
 import DataGrid from './DataGrid';
+import Switch from './Switch'
 
 export {
   Logo,
@@ -19,5 +20,11 @@ export {
   Table,
   TableHeader,
   Input,
-  DataGrid
+  DataGrid,
+  Switch
 };
+
+export type {
+  IOption
+} from './SmallSelect';
+
