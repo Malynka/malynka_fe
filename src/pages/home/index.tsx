@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { Headline } from '@typography';
@@ -18,10 +19,16 @@ import { IPageProps } from "../types";
 const Home: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
 
+  const navigate = useNavigate();
+
   const [years, setYears] = useState<number[]>([]);
   const [year, setYear] = useState<number | 'default'>('default');
   const [stats, setStats] = useState<IStats | null>(null);
   const [mounted, setMounted] = useState(false);
+
+  const handleAddReceivingButtonClick = () => {
+    navigate('/receivings', { state: { addReceiving: true } });
+  };
 
   useEffect(() => {
     getYears().then(({ data }) => {
@@ -48,7 +55,7 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
       <HomeContainer>
         <Headline type="H4" margin="12px 0">Швидкий доступ</Headline>
         <QuickAccessButtonsWrapper>
-          <PlateIconButton text="Додати прийом" icon={<AddIcon />} />
+          <PlateIconButton text="Додати прийом" icon={<AddIcon />} onClick={handleAddReceivingButtonClick} />
         </QuickAccessButtonsWrapper>
         <StatsTitleYearWrapper>
           <Headline type="H4" margin="24px 0">Статистика</Headline>

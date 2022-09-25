@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState, useEffect, Suspense } from 'react';
+import { useLocation, useParams } from 'react-router';
 import { CircularProgress } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import AddIcon from '@mui/icons-material/Add';
@@ -25,6 +26,10 @@ import uniqueId from 'lodash.uniqueid';
 
 const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
+
+  const { state } = useLocation();
+
+
 
   const rowsState = useState<GridValidRowModel[]>([
     {
@@ -181,6 +186,10 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
 
     getClients().then((res) => {
       setClients(res.data);
+
+      if (state && (state as { addReceiving: boolean }).addReceiving) {
+        handleCreateReceivingButtonClick();
+      }
     });
   }, []);
 
