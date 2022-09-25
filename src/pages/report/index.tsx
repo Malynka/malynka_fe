@@ -8,14 +8,7 @@ import { useDocumentTitle } from '@hooks';
 import { getReportByRange, getYears, getClients } from '@middleware';
 import { IClient } from '@types';
 import { IPageProps } from "../types";
-import {
-  ReportContainer,
-  ControlsWrapper,
-  DatePickersWrapper
-} from './styles';
-
-const startTimeStamp = 1618489894155;
-const endTimeStamp = 1631709094155;
+import { ReportContainer, ControlsWrapper, DatePickersWrapper } from './styles';
 
 const Report: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
