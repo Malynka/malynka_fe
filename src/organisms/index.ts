@@ -4,6 +4,7 @@ import OwnReceivingRow from "./OwnReceivingRow";
 import Dialog from './Dialog';
 import DatePicker from "./DatePicker";
 import ReceivingWritableTable from "./ReceivingWritableTable";
+import SaleRow from './SaleRow';
 
 export {
   Header,
@@ -12,4 +13,5 @@ export {
   Dialog,
   DatePicker,
   ReceivingWritableTable,
+  SaleRow
 };
