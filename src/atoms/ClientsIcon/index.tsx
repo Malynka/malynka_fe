@@ -8,7 +8,7 @@ const ClientsIcon: FunctionComponent<IMenuIconProps> = ({
   ...props
 }) => (
   <svg
-    viewBox="0 0 48 48"
+    viewBox="0 0 60 60"
     width={width}
     height={height}
     fill="none"

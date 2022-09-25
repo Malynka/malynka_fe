@@ -4,6 +4,7 @@ import TakingIcon from './TakingIcon';
 import ReportIcon from './ReportIcon';
 import ClientsIcon from './ClientsIcon';
 import OwnTakingIcon from './OwnTakingIcon';
+import SalesIcon from './SalesIcon';
 import TableCell from './TableCell';
 
 export {
@@ -14,6 +15,7 @@ export {
   ClientsIcon,
   OwnTakingIcon,
   TableCell,
+  SalesIcon,
 };
 
 export type {
