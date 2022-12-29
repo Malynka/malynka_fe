@@ -1,6 +1,6 @@
 {
   "name": "malynka_fe",
-  "productName": "malynka_fe",
+  "productName": "Malynka",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".webpack/main",
@@ -19,12 +19,14 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "src/icon"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "malynka_fe"
+            "name": "Malynka"
           }
         },
         {
