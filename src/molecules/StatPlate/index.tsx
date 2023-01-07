@@ -13,7 +13,7 @@ const StatPlate: FunctionComponent<IStatPlateProps> = ({ label, value, unit }) =
   <StatPlateContainer>
     <Subtitle>{ label }</Subtitle>
     <ValueWrapper>
-      <Headline type="H4">{ getSpacedDecimal(value) }</Headline>
+      <Body>{ getSpacedDecimal(value) }</Body>
       <Subtitle>{ unit }</Subtitle>
     </ValueWrapper>
   </StatPlateContainer>
