@@ -272,7 +272,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
             <CounterContainer>
               <AllPriceIcon />
               <Body>Загальна ціна:</Body>
-              <Body>{getSpacedDecimal(rows.reduce((acc, { weight, price }) => acc + (weight === '' || price === '' ? 0 : weight * price), 0))} грн</Body>
+              <Body>{getSpacedDecimal(rows.reduce((acc, { weight, price }) => acc + (weight === '' || price === '' ? 0 : weight * price), 0).toFixed(2))} грн</Body>
             </CounterContainer>
           </CountersWrapper>
         }

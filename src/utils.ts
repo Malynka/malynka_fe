@@ -1,5 +1,5 @@
-const splitDecimal = (num: number) => String(num).split('').reverse().reduce((acc, curr, index) => acc + curr + ((index + 1) % 3 === 0 ? '\xa0' : ''), '').split('').reverse().join('').trim();
-export const getSpacedDecimal = (num: number) => {
+const splitDecimal = (num: number | string) => String(num).split('').reverse().reduce((acc, curr, index) => acc + curr + ((index + 1) % 3 === 0 ? '\xa0' : ''), '').split('').reverse().join('').trim();
+export const getSpacedDecimal = (num: number | string) => {
   const stringNum = String(num);
 
   const dotIndex = stringNum.indexOf('.');
