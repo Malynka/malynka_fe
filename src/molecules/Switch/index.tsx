@@ -1,9 +1,11 @@
-import React, {
+import type {
   ChangeEventHandler,
   FunctionComponent,
+} from "react";
+import {
   useEffect,
   useState,
-} from "react";
+} from 'react';
 import { Body } from '@typography';
 import { Input, Slider, SwitchContainer, SwitchIndicator } from './styles';
 
@@ -28,7 +30,7 @@ const Switch: FunctionComponent<SwitchProps> = ({
   const [selfChecked, setSelfChecked] = useState(false);
 
   useEffect(() => {
-    setSelfChecked(checked);
+    setSelfChecked(!!checked);
   }, [checked]);
 
   return (

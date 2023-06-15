@@ -1,5 +1,5 @@
 import { TableCell } from '@atoms';
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { TableHeaderContainer } from './styles';
 
 export interface ITableHeaderProps {

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Headline } from '@typography';
-import { Dialog, DialogTitle, DialogActions, dialogClasses, dialogTitleClasses, dialogActionsClasses } from '@mui/material';
+import { Dialog, DialogTitle, dialogClasses, dialogTitleClasses, dialogActionsClasses } from '@mui/material';
 
 export const StyledDialog = styled(Dialog)`
   .${dialogClasses.container} {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { TextFieldProps } from '@mui/material';
 import { StyledTextField } from './styles';
 

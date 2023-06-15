@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState, useEffect, ChangeEventHandler, KeyboardEventHandler } from 'react';
+import type { FunctionComponent, ChangeEventHandler, KeyboardEventHandler } from 'react';
+import { useState, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { InputAdornment } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,12 +14,11 @@ import { getSpacedDecimal, FLOAT_NUMBER_REGEX } from '@utils';
 import { ISale } from '@types';
 import { IPageProps } from "../types";
 import { SalesContainer, InputsWrapper, InputsFlexWrapper, CounterContainer, AggregationContainer } from './styles'; 
-import { createNextState } from '@reduxjs/toolkit';
 
 const Sales: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
   const [years, setYears] = useState<number[]>([]);
-  const [year, setYear] = useState<number>(null);
+  const [year, setYear] = useState<number | null>(null);
   const [sales, setSales] = useState<ISale[]>([]);
   const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -96,7 +96,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
     createSale({
       weight: Number(weight),
       price: Number(price),
-      timestamp: date.toDate().getTime()
+      timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
       
@@ -111,7 +111,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
       _id: editReceivingId,
       weight: Number(weight),
       price: Number(price),
-      timestamp: date.toDate().getTime()
+      timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
 
@@ -127,10 +127,12 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleDeleteSaleConfirm = () => {
-    deleteSale(saleToDelete._id).then(() => {
-      fetchAll();
-      handleDeleteSaleCancel();
-    })
+    if (saleToDelete) {
+      deleteSale(saleToDelete._id).then(() => {
+        fetchAll();
+        handleDeleteSaleCancel();
+      })
+    }
   };
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -155,7 +157,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
   }, []);
 
   useEffect(() => {
-    setYear(years[0] || null);
+    setYear(years[0]);
   }, [years]);
 
   useEffect(() => {
@@ -181,7 +183,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
                 label: y,
                 value: y
               }))}
-              option={year}
+              option={year!}
               onChange={(event) => {
                 setYear(Number(event.target.value));
               }}
@@ -252,7 +254,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
             <DatePicker
               value={date}
               onChange={(newValue) => {
-                setDate(newValue);
+                setDate(newValue as Dayjs);
               }}
               minDate={dayjs('01-01-2018')}
             />
@@ -266,7 +268,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
         onConfirm={handleDeleteSaleConfirm}
         onCancel={handleDeleteSaleCancel}
       >
-        <Body>Ви впевнені, що хочете видалити продаж малини вагою <b>{ getSpacedDecimal(saleToDelete?.weight) }&nbsp;кг</b> і загальною ціною <b>{saleToDelete ? getSpacedDecimal(saleToDelete.weight * saleToDelete.price) : null} грн</b> датований <b>{ dayjs(saleToDelete?.timestamp).format('DD.MM.YYYY') }</b>?</Body>
+        <Body>Ви впевнені, що хочете видалити продаж малини вагою <b>{ getSpacedDecimal(saleToDelete?.weight || 0) }&nbsp;кг</b> і загальною ціною <b>{saleToDelete ? getSpacedDecimal(saleToDelete.weight * saleToDelete.price) : null} грн</b> датований <b>{ dayjs(saleToDelete?.timestamp).format('DD.MM.YYYY') }</b>?</Body>
       </Dialog>
     </>
   );

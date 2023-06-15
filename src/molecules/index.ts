@@ -8,7 +8,8 @@ import Table from './Table';
 import TableHeader from "./TableHeader";
 import Input from './Input';
 import DataGrid from './DataGrid';
-import Switch from './Switch'
+import Switch from './Switch';
+import AppUpdateControl from "./AppUpdateControl";
 
 export {
   Logo,
@@ -21,7 +22,8 @@ export {
   TableHeader,
   Input,
   DataGrid,
-  Switch
+  Switch,
+  AppUpdateControl,
 };
 
 export type {

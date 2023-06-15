@@ -6,6 +6,7 @@ import ClientsIcon from './ClientsIcon';
 import OwnTakingIcon from './OwnTakingIcon';
 import SalesIcon from './SalesIcon';
 import TableCell from './TableCell';
+import AppVersion from './AppVersion';
 
 export {
   LogoIcon,
@@ -16,6 +17,7 @@ export {
   OwnTakingIcon,
   TableCell,
   SalesIcon,
+  AppVersion
 };
 
 export type {

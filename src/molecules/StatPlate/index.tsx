@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Subtitle, Headline, Body } from '@typography';
+import type { FunctionComponent } from 'react';
+import { Subtitle, Body } from '@typography';
 import { getSpacedDecimal } from '@utils';
 import { StatPlateContainer, ValueWrapper } from './styles';
 

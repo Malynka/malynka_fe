@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { styledTheme } from '@theme';
 import { IMenuIconProps } from '@atoms';
 import { MenuItemText } from '@typography';
 import { MenuItemContainer } from './styles';
@@ -11,17 +11,11 @@ export interface IMenuItemProps {
   path: string;
 }
 
-const iconColor = {
-  default: styledTheme.colors.black.main,
-  hover: styledTheme.colors.white.main,
-};
-
 const MenuItem: FunctionComponent<IMenuItemProps> = ({
   Icon,
   name,
   path,
 }) => {
-  const [state, setState] = useState<keyof typeof iconColor>('default');
   const [active, setActive] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();

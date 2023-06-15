@@ -1,6 +1,5 @@
 
-import React, { FunctionComponent } from 'react';
-import ReactDOM from 'react-dom/client';
+import { FunctionComponent } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/uk';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
@@ -12,6 +11,8 @@ import routes from './routes';
 import { muiTheme, styledTheme } from './theme';
 import Menu from './Menu';
 import { AppContainer, PageMountPoint } from './styles';
+import 'normalize.css';
+import './index.css';
 
 const App: FunctionComponent = () => {
   return (
@@ -28,21 +29,16 @@ const App: FunctionComponent = () => {
   );
 };
 
-
-const root = ReactDOM.createRoot(document.getElementById('malynka-app-root'));
-
-const render = () => {
-  root.render(
+export default function AppStyledWrapper() {
+  return (
     <MuiThemeProvider theme={muiTheme}>
       <StyledThemeProvider theme={styledTheme}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={dayjs.locale('uk')}>
-        <HashRouter>
-          <App />
-        </HashRouter>
+          <HashRouter>
+            <App />
+          </HashRouter>
         </LocalizationProvider>
-      </StyledThemeProvider> 
+      </StyledThemeProvider>
     </MuiThemeProvider>
   );
-};
-
-render();
+}

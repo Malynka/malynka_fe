@@ -8,8 +8,6 @@ export const getStyles = (props: Omit<IInternalTypographyProps, 'as'>) => css`
   letter-spacing: ${props.letterSpacing}px;
 `;
 
-const s = styled['div'];
-
 export const getTypographyComponent = (typographyProps: IInternalTypographyProps, element: keyof StyledInterface = 'div') => 
 (styled[element] as ThemedStyledFunction<typeof element, DefaultTheme, IExternalTypographyProps, never>)`
   font-family: Roboto, sans-serif;
@@ -18,7 +16,7 @@ export const getTypographyComponent = (typographyProps: IInternalTypographyProps
 `;
 
 export const getTypographyComponentWithTypes = <Type extends string | number>(typographyPropsRecord: Record<Type, IInternalTypographyProps>, defaultElement: keyof StyledInterface = 'div' ) =>
-(styled[defaultElement] as ThemedStyledFunction<typeof defaultElement, DefaultTheme, {}, never>)
+(styled[defaultElement] as ThemedStyledFunction<typeof defaultElement, DefaultTheme, Record<string, never>, never>)
 .attrs((props) => ({
   as: typographyPropsRecord[(props as unknown as { type: Type }).type].as
 }))<IExternalTypographyProps & { type: Type }>`

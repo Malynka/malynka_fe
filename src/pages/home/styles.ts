@@ -18,11 +18,3 @@ export const StatsTitleYearWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
-export const StatsPlatesColumn = styled.div`
-  flex: 1;
-
-  > div:not(:last-of-type) {
-    margin-bottom: 16px;
-  }
-`;

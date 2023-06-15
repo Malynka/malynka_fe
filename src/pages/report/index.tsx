@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import { useState, useEffect } from 'react';
 import { saveAs } from 'file-saver';
 import dayjs, { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material';
@@ -23,8 +24,8 @@ const Report: FunctionComponent<IPageProps> = ({ name }) => {
   const minDate = dayjs(`01-01-${Math.min(...years)}`);
   const maxDate = dayjs(`12-31-${Math.max(...years)}`);
 
-  const handleClientChange = (event: SelectChangeEvent<string>) => {
-    setClient(event.target.value);
+  const handleClientChange = (event: SelectChangeEvent<unknown>) => {
+    setClient(event.target.value as string);
   }
   
   const handleSwitchChange = () => {
@@ -42,22 +43,22 @@ const Report: FunctionComponent<IPageProps> = ({ name }) => {
     }); 
   }
 
-  const handleStartDateChange = (value: Dayjs) => {
-    setStartDate(value);
-    if (endDate.diff(value) < 0) setEndDate(value);
+  const handleStartDateChange = (value: unknown) => {
+    setStartDate(value as Dayjs);
+    if (endDate.diff(value as Dayjs) < 0) setEndDate(value as Dayjs);
   };
 
-  const handleEndDateChange = (value: Dayjs) => {
-    setEndDate(value);
+  const handleEndDateChange = (value: unknown) => {
+    setEndDate(value as Dayjs);
   }
 
   const handleGenerateExcel = () => {
-    let startTimeStamp = startDate.toDate().getTime();
-    let endTimeStamp = endDate.toDate().getTime();
+    const startTimeStamp = startDate.toDate().getTime();
+    const endTimeStamp = endDate.toDate().getTime();
 
-    getReportByRange(startTimeStamp, rangeSwitchChecked ? endTimeStamp : undefined, client !== 'default' ? client : null).then((res) => {
+    getReportByRange(startTimeStamp, rangeSwitchChecked ? endTimeStamp : undefined, client !== 'default' ? client : undefined).then((res) => {
 
-      const fileName = `raport${client !== 'default' ? `-${clients.find((c) => c._id === client).name}`: ''}-${new Date(startTimeStamp).toLocaleDateString('uk')}${rangeSwitchChecked ? `-${new Date(endTimeStamp).toLocaleDateString('uk')}` : ''}.xlsx`;
+      const fileName = `raport${client !== 'default' ? `-${clients.find((c) => c._id === client)!.name}`: ''}-${new Date(startTimeStamp).toLocaleDateString('uk')}${rangeSwitchChecked ? `-${new Date(endTimeStamp).toLocaleDateString('uk')}` : ''}.xlsx`;
       saveAs(res.data, fileName);
     });
   };

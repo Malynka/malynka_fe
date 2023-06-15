@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { LogoIcon } from '@atoms';
 import { LogoContainer } from './styles';
 import { Headline } from '@typography';

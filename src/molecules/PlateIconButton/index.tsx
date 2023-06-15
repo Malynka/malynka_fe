@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEventHandler, ReactNode } from 'react';
+import type { FunctionComponent, MouseEventHandler, ReactNode } from 'react';
 import { Body } from '@typography';
 import { StyledMuiButton } from './styles';
 

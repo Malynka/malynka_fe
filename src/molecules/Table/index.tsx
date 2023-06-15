@@ -1,6 +1,6 @@
 import { TableCell } from '@atoms';
 import { getSpacedDecimal } from '@utils';
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { TableContainer, TableRow } from './styles';
 
 export interface ITableProps {

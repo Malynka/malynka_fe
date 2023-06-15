@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useState, KeyboardEventHandler, ChangeEventHandler, useRef } from "react";
+import type { FunctionComponent, KeyboardEventHandler, ChangeEventHandler } from "react";
+import { useEffect, useState, } from 'react';
 import { GridColumns, GridRenderCellParams, ukUA } from '@mui/x-data-grid';
 import { IconButton, InputAdornment } from "@mui/material";
 import EditIcon from '@mui/icons-material/EditRounded';
@@ -109,17 +110,17 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleDeleteClientCancel = () => {
-    console.log("HERE TOO");
     setClientToDelete(null);
   }
 
   const handleDeleteClientConfirm = () => {
-    console.log('HERE');
-    deleteClient(clientToDelete._id).then(() => {
-      fetchAll();
-    });
+    if (clientToDelete) {
+      deleteClient(clientToDelete._id).then(() => {
+        fetchAll();
+      });
 
-    handleDeleteClientCancel();
+      handleDeleteClientCancel();
+    }
   };
 
   const col: GridColumns = [

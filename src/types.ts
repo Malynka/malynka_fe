@@ -39,3 +39,13 @@ export interface ISale {
   price: number;
   timestamp: number;
 }
+
+export type UpdatingMessage = {
+  status: 'init' | 'downloaded' | 'checking' | 'up-to-date'
+} | {
+  status: 'downloading';
+  value: number;
+} | {
+  status: 'error' | 'updatable',
+  value: string;
+};

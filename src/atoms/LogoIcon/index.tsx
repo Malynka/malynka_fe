@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren, SVGProps } from 'react';
+import type { FunctionComponent, PropsWithChildren, SVGProps } from 'react';
 
 export interface ILogoIconProps extends SVGProps<SVGSVGElement> {
   width?: number;

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren, MouseEventHandler, useEffect } from 'react';
+import type { FunctionComponent, PropsWithChildren } from 'react';
 import { DialogProps, DialogContent, DialogActions } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';

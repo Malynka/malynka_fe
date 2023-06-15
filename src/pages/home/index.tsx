@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -11,7 +12,6 @@ import { IStats } from '@types';
 import {
   HomeContainer,
   QuickAccessButtonsWrapper,
-  StatsPlatesColumn,
   StatsTitleYearWrapper
 } from './styles';
 import { IPageProps } from "../types";

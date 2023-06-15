@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
-import ClientIcon from '@mui/icons-material/Person2Rounded';
-import { InputLabel, SelectChangeEvent } from '@mui/material';
+import type { FunctionComponent } from 'react';
+import type { SelectChangeEvent } from '@mui/material';
 import {
   MuiFormControl,
   MuiMenuItem,
@@ -16,7 +15,7 @@ export interface ISmallSelectProps {
   defaultLabel?: string;
   options: readonly IOption[];
   option: IOption['value'];
-  onChange: (event: SelectChangeEvent) => void; 
+  onChange?: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void;
 }
 
 const SmallSelect: FunctionComponent<ISmallSelectProps> = ({

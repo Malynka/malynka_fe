@@ -1,5 +1,6 @@
-import React, { FunctionComponent, useState, useEffect, Suspense } from 'react';
-import { useLocation, useParams } from 'react-router';
+import type { FunctionComponent } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router';
 import { CircularProgress } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,8 +29,6 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
 
   const { state } = useLocation();
-
-
 
   const rowsState = useState<GridValidRowModel[]>([
     {
@@ -61,13 +60,13 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   const [editReceivingId, setEditReceivingId] = useState<string>('');
   const [receivingToDelete, setReceivingToDelete] = useState<IReceiving | null>(null);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     if (year) {
       getReceivingsByYear(year).then((res) => {
         setReceivings(res.data);
       });
     }
-  };
+  }, [year]);
 
   const handleCreateReceivingButtonClick = () => {
     setDialogMode('create');
@@ -99,7 +98,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
       const newReceiving = res.data;
 
       if (new Date(newReceiving.timestamp).getFullYear() === year) {
-        setReceivings((prev) => [...prev, newReceiving].sort((a,b) => b.timestamp - a.timestamp));
+        setReceivings((prev) => [...(prev || []), newReceiving].sort((a,b) => b.timestamp - a.timestamp));
       }
 
       handleDialogCancel();
@@ -107,7 +106,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleEditReceivingButtonClick = (id: string) => () => {
-    const receiving = receivings.find((r) => r._id === id);
+    const receiving = receivings?.find((r) => r._id === id);
 
     if (receiving) {
       setDialogMode('edit');
@@ -135,10 +134,10 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
     }).then((res) => {
       const updatedReceiving = res.data;
 
-      setReceivings((prev) => prev.filter((r) => r._id !== updatedReceiving._id));
+      setReceivings((prev) => prev?.filter((r) => r._id !== updatedReceiving._id) || []);
 
       if (new Date(updatedReceiving.timestamp).getFullYear() === year) {
-        setReceivings((prev) => [...prev, updatedReceiving].sort((a,b) => b.timestamp - a.timestamp));
+        setReceivings((prev) => [...(prev || []), updatedReceiving].sort((a,b) => b.timestamp - a.timestamp));
       }
 
       handleDialogCancel();
@@ -146,7 +145,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleDeleteReceivingButtonClick = (id: string) => () => {
-    const receiving = receivings.find((r) => r._id === id);
+    const receiving = receivings?.find((r) => r._id === id);
 
     if (receiving) {
       setReceivingToDelete(receiving);
@@ -158,14 +157,16 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleDeleteReceivingConfirm = () => {
-    deleteReceiving(receivingToDelete._id).then(() => {
-      setReceivings((prev) => prev.filter((r) => r._id !== receivingToDelete._id));
-      setDeleteDialogOpen(false);
+    if (receivingToDelete) {
+      deleteReceiving(receivingToDelete._id).then(() => {
+        setReceivings((prev) => prev?.filter((r) => r._id !== receivingToDelete._id) || []);
+        setDeleteDialogOpen(false);
 
-      setTimeout(() => {
-        setReceivingToDelete(null);
-      }, 100);
-    });
+        setTimeout(() => {
+          setReceivingToDelete(null);
+        }, 100);
+      });
+    }
   }
 
   const handleDeleteReceivingCancel = () => {
@@ -191,7 +192,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
         handleCreateReceivingButtonClick();
       }
     });
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     setYear(years[0] || null);
@@ -199,7 +200,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
 
   useEffect(() => {
     getData();
-  }, [year]);
+  }, [year, getData]);
 
   return (
     <>
@@ -212,7 +213,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
                 label: y,
                 value: y
               }))}
-              option={year}
+              option={year || ''}
               onChange={(event) => {
                 setYear(Number(event.target.value));
               }}
@@ -286,13 +287,13 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
             }))}
             option={client}
             onChange={(event) => {
-              setClient(event.target.value);
+              setClient(event.target.value as string);
             }}
           />
           <DatePicker
             value={date}
             onChange={(newValue) => {
-              setDate(newValue);
+              setDate(newValue as Dayjs);
             }}
             minDate={dayjs('01-01-2018')}
           />

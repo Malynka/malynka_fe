@@ -1,9 +1,9 @@
-import React, {FunctionComponent, PropsWithChildren} from 'react';
-import { IMenuIconProps } from '@atoms';
-import { MenuItem } from '@molecules';
+import type {FunctionComponent, PropsWithChildren} from 'react';
+import type { IMenuIconProps } from '@atoms';
+import { AppVersion } from '@atoms';
+import { MenuItem, AppUpdateControl } from '@molecules';
 import { Logo } from '@molecules';
-import { MenuContainer, MenuItemsContainer } from './styles';
-
+import { MenuContainer, MenuItemsContainer, VersionContainer, AppUpdateButtonWrapper } from './styles';
 
 export interface IMenuProps {
   data: {
@@ -25,6 +25,12 @@ const Menu: FunctionComponent<PropsWithChildren<IMenuProps>> = ({ data }) => {
           />
         ))}
       </MenuItemsContainer>
+      <VersionContainer>
+        <AppVersion />
+      </VersionContainer>
+      <AppUpdateButtonWrapper>
+        <AppUpdateControl />
+      </AppUpdateButtonWrapper>
     </MenuContainer>
   );
 };

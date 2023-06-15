@@ -1,5 +1,5 @@
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { IMenuIconProps } from '../types';
 
 const TakingIcon: FunctionComponent<IMenuIconProps> = ({

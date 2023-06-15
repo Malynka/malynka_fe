@@ -1,4 +1,4 @@
-import React, { FunctionComponent, PropsWithChildren } from 'react';
+import type { FunctionComponent } from 'react';
 import { Headline } from '@typography';
 import { HeaderContainer, ControlsWrapper, TableHeaderWrapper } from './styles';
 

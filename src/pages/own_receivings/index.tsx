@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState, useEffect, ChangeEventHandler, KeyboardEventHandler } from 'react';
+import type { FunctionComponent, ChangeEventHandler } from 'react';
+import { useState, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { InputAdornment } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -80,7 +81,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
   const handleCreateOwnReceivingConfirm = () => {
     createOwnReceiving({
       weight: Number(weight),
-      timestamp: date.toDate().getTime()
+      timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
       
@@ -94,7 +95,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
     updateOwnReceiving({
       _id: editReceivingId,
       weight: Number(weight),
-      timestamp: date.toDate().getTime()
+      timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
 
@@ -110,10 +111,12 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleDeleteOwnReceivingConfirm = () => {
-    deleteOwnReceiving(receivingToDelete._id).then(() => {
-      fetchAll();
-      handleDeleteOwnReceivingCancel();
-    })
+    if (receivingToDelete) {
+      deleteOwnReceiving(receivingToDelete._id).then(() => {
+        fetchAll();
+        handleDeleteOwnReceivingCancel();
+      })
+    }
   };
 
   useEffect(() => {
@@ -174,7 +177,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
           <DatePicker
             value={date}
             onChange={(newValue) => {
-              setDate(newValue);
+              setDate(newValue as Dayjs);
             }}
             minDate={dayjs('01-01-2018')}
           />
@@ -187,7 +190,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
         onConfirm={handleDeleteOwnReceivingConfirm}
         onCancel={handleDeleteOwnReceivingCancel}
       >
-        <Body>Ви впевнені, що хочете видалити прийом власної малини вагою <b>{ getSpacedDecimal(receivingToDelete?.weight) }&nbsp;кг</b> датований <b>{ dayjs(receivingToDelete?.timestamp).format('DD.MM.YYYY') }</b>?</Body>
+        <Body>Ви впевнені, що хочете видалити прийом власної малини вагою <b>{ getSpacedDecimal(receivingToDelete?.weight || 0) }&nbsp;кг</b> датований <b>{ dayjs(receivingToDelete?.timestamp).format('DD.MM.YYYY') }</b>?</Body>
       </Dialog>
     </>
   );

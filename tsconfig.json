@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
+
+    /* Bundler mode */
     "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
       "@hooks": ["src/hooks"],
       "@mui/styled-engine": ["node_modules/@mui/styled-engine-sc"],
@@ -21,10 +26,15 @@
       "@theme": ["src/app/theme"],
       "@typography": ["src/typography"],
       "@utils": ["src/utils.ts"],
-      "@middleware": ["src/middleware"],
-      "*": ["node_modules/*"]
+      "@middleware": ["src/middleware"]
     },
-    "jsx": "react"
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*"]
+  "include": ["src", "electron"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

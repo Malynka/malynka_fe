@@ -1,15 +1,12 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import type { FunctionComponent, Dispatch, SetStateAction } from 'react';
+import { useEffect } from 'react';
 import {
   GridColumns,
   GridValidRowModel,
   GridEventListener,
   GridActionsCellItem,
-  GridRowId,
   GridPreProcessEditCellProps,
-  GridCellParams,
-  GridCellModesModel,
-  GridCellModes,
-  GridCallbackDetails
+  GridRowId,
 } from '@mui/x-data-grid';
 import PositionIcon from '@mui/icons-material/InboxRounded';
 import DeleteIcon from '@mui/icons-material/DeleteRounded';
@@ -18,10 +15,8 @@ import { DataGrid, RoundedButton  } from '@molecules';
 import { getSpacedDecimal, FLOAT_NUMBER_REGEX } from '@utils';
 import { ReceivingWritableTableContainer, TableWrapper } from './styles';
 
-const funcForUseStateType = () => useState<GridValidRowModel[]>([]);
-
 export interface IReceivingWritableTableProps {
-  rowsState: ReturnType<typeof funcForUseStateType>;
+  rowsState: [GridValidRowModel[], Dispatch<SetStateAction<GridValidRowModel[]>>];
   onChange: (isCompleted: boolean) => void;
 }
 
@@ -62,7 +57,7 @@ const ReceivingWritableTable: FunctionComponent<IReceivingWritableTableProps> = 
 
   useEffect(() => {
     onChange(rows.every((r) => Object.keys(r).length === Object.values(r).filter(v => v).length));
-  }, [rows]);
+  }, [rows, onChange]);
 
   const preProcessEditCellProps = (params: GridPreProcessEditCellProps<any, any>) => {
     const hasError = !(FLOAT_NUMBER_REGEX.test(params.props.value) || params.props.value === '');
