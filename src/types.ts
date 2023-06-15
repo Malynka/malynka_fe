@@ -3,6 +3,7 @@ export interface IClient {
   _id: string;
   name: string;
   note: string;
+  isHidden: boolean;
 }
 
 export interface IOwnReceiving {

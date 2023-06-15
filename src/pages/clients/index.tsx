@@ -237,7 +237,7 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
         onConfirm={handleDeleteClientConfirm}
         onCancel={handleDeleteClientCancel}
       >
-        <Body>Ви впевнені, що хочете видалити клієнта <b>{ clientToDelete?.name }</b>? Усі пов'язані з ним прийоми будуть видалені.</Body>
+        <Body>Ви впевнені, що хочете видалити клієнта <b>{ clientToDelete?.name }</b>? Клієнт буде прихований, дані про нього збережуться. Також біля клієнта з'явиться позначення <b>(Прихований)</b>.</Body>
       </Dialog>
     </>
   );

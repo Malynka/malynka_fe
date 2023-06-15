@@ -28,7 +28,7 @@ const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({
   return (
     <ReceivingTableRowContainer rows={rows.length}>
       <NameTableWrapper>
-        <Body>{client.name}</Body>
+        <Body>{client.name} {!!client.isHidden && '(Прихований)'}</Body>
         <GroupTableWrapper rows={rows.length}>
           <Table width={450} rows={rows} />
           <AllCell>

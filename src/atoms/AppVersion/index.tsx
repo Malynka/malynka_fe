@@ -32,6 +32,6 @@ const getVersion =  () => {
 
 const versionData = getVersion();
 
-const AppVersion = () => <div>App Version: {versionData()}</div>;
+const AppVersion = () => <div>Версія: {versionData()}</div>;
 
 export default AppVersion;

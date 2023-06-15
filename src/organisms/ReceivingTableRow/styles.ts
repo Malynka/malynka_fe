@@ -9,7 +9,7 @@ export const ReceivingTableRowContainer = styled.article<{ rows: number }>`
   padding-right: 24px;
   padding-bottom: 12px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.white.dark};
-  height: ${({ rows }) => rows * 44 + 4}px;
+  height: auto;
   column-gap: 24px;
 `;
 

@@ -3,13 +3,6 @@ import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
 import type { UpdatingMessage } from '../src/types';
 
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true;
-  }
-});
-
-
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
@@ -123,7 +116,7 @@ function createWindow() {
 }
 
 app.on('window-all-closed', () => {
-  win = null
+  app.quit();
 })
 
 app.whenReady().then(() => {
