@@ -1,4 +1,5 @@
 import type { FunctionComponent, KeyboardEventHandler, ChangeEventHandler } from "react";
+import { AxiosError } from "axios";
 import { useEffect, useState, } from 'react';
 import { GridColumns, GridRenderCellParams, ukUA } from '@mui/x-data-grid';
 import { IconButton, InputAdornment } from "@mui/material";
@@ -11,7 +12,7 @@ import { Body } from '@typography';
 import { RoundedButton, Input, DataGrid } from "@molecules";
 import { Header, Dialog } from "@organisms";
 import { useDocumentTitle } from "@hooks";
-import { getClients, createClient, updateClient, deleteClient } from "@middleware";
+import { getClients, createClient, updateClient, deleteClient, restoreClient } from "@middleware";
 import { IClient } from "@types";
 import { IPageProps } from "../types";
 import { ClientsContainer, InputsWrapper } from "./styles";
@@ -26,7 +27,7 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
   const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create');
   
   const [dialogOpen, setDialogOpen] = useState(false);
-  
+  const [clientExistsConfictDialogOpen, setClientExistsConfictDialogOpen] = useState(false);
   const [clientToDelete, setClientToDelete] = useState<IClient | null>(null);
 
   const fetchAll = () => {
@@ -60,8 +61,11 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
       note: clientNote
     }).then(() => {
       fetchAll();
-      
       handleDialogCancel();
+    }).catch((error: AxiosError<{ message: string }>) => {
+      if (error.response?.data.message === 'CLIENT_ALREADY_EXISTS') {
+        setClientExistsConfictDialogOpen(true);
+      }
     });
   };
 
@@ -108,6 +112,19 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
       alert('Помилка, щось не так з ідентифікатором');
     }
   };
+
+  const handleClientCreateConfictRestoreConfirm = () => {
+    restoreClient(clientName).then(() => {
+      fetchAll();
+      handleClientCreateConflictCancel();
+    });
+  };
+
+  const handleClientCreateConflictCancel = () => {
+    setClientExistsConfictDialogOpen(false);
+    handleDialogCancel();
+  };
+
 
   const handleDeleteClientCancel = () => {
     setClientToDelete(null);
@@ -232,12 +249,21 @@ const Clients: FunctionComponent<IPageProps> = ({ name }) => {
         </InputsWrapper>
       </Dialog>
       <Dialog
-        title={`Увага`}
+        title="Увага"
         open={!!clientToDelete}
         onConfirm={handleDeleteClientConfirm}
         onCancel={handleDeleteClientCancel}
       >
         <Body>Ви впевнені, що хочете видалити клієнта <b>{ clientToDelete?.name }</b>? Клієнт буде прихований, дані про нього збережуться. Також біля клієнта з'явиться позначення <b>(Прихований)</b>.</Body>
+      </Dialog>
+      <Dialog
+        title="Увага"
+        open={clientExistsConfictDialogOpen}
+        confirmTitle="Відновити"
+        onConfirm={handleClientCreateConfictRestoreConfirm}
+        onCancel={handleClientCreateConflictCancel}
+      >
+        <Body>Клієнт з іменем <b>{ clientName }</b> вже існує, але він/вона приховані. Хочете відновити?</Body>
       </Dialog>
     </>
   );

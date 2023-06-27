@@ -35,7 +35,7 @@ const buttonClickFunctions: Record<UpdatingMessage['status'], (() => void) | und
   'updatable': downloadUpdate,
   'downloading': undefined,
   'downloaded': update,
-  'error': undefined,
+  'error': checkUpdates, 
   'up-to-date': undefined
 };
 
@@ -55,7 +55,7 @@ const AppUpdateControl = () => {
     return () => {
       ipcRenderer.off('update-message', updateMessageCallback);
     };
-  }, []);
+  }, [updateMessageCallback]);
 
   const text = message.status === 'downloading' ? `${message.value}%` : buttonText[message.status];
 

@@ -31,4 +31,9 @@ export const ButtonsWrapper = styled.div`
   padding-bottom: 16px;
   padding-left: 16px;
   padding-right: 16px;
+  flex-wrap: wrap;
+
+  > button {
+    flex-grow: 1;
+  }
 `;

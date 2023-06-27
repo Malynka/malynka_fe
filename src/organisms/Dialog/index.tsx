@@ -10,6 +10,7 @@ export interface IDialogProps extends Pick<DialogProps, 'open'> {
   title: string;
   disableConfirm?: boolean; 
   preButtonsComponent?: JSX.Element;
+  confirmTitle?: string;
   onConfirm: () => void;
   onCancel: () => void;
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
@@ -19,6 +20,7 @@ const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({
   open,
   title,
   disableConfirm,
+  confirmTitle,
   onKeyDown,
   onConfirm,
   onCancel,
@@ -38,7 +40,7 @@ const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({
         </PreButtonsComponentWrapper>
         <ButtonsWrapper>
           <RoundedButton
-            text="Підвердити"
+            text={confirmTitle || 'Підвердити'}
             icon={<CheckIcon />}
             variant="contained"
             color="secondary"
