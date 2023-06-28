@@ -7,13 +7,12 @@ import {
   GridActionsCellItem,
   GridPreProcessEditCellProps,
   GridRowId,
-  GridCell,
 } from '@mui/x-data-grid';
 import PositionIcon from '@mui/icons-material/InboxRounded';
 import DeleteIcon from '@mui/icons-material/DeleteRounded';
 import uniqueId from 'lodash.uniqueid';
 import { DataGrid, RoundedButton  } from '@molecules';
-import { getSpacedDecimal, FLOAT_NUMBER_REGEX } from '@utils';
+import { FLOAT_NUMBER_REGEX } from '@utils';
 import { ReceivingWritableTableContainer, TableWrapper } from './styles';
 
 export interface IReceivingWritableTableProps {
