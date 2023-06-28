@@ -32,7 +32,7 @@ const ReceivingTableRow: FunctionComponent<IReceivingTableRowProps> = ({
         <GroupTableWrapper rows={rows.length}>
           <Table width={450} rows={rows} />
           <AllCell>
-            <Body>{getSpacedDecimal(allSum.toFixed(2))}</Body>
+            <Body>{getSpacedDecimal(Math.round(allSum))}</Body>
           </AllCell>
         </GroupTableWrapper>
       </NameTableWrapper>

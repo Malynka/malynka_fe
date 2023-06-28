@@ -28,7 +28,7 @@ const SaleRow: FunctionComponent<ISaleRowProps> = ({ weight, price, timestamp, o
         <Body>{price} грн</Body>
       </DataRow>
       <DataRow>
-        <Body>Загальна ціна: {getSpacedDecimal(weight * price)} грн</Body>
+        <Body>Загальна ціна: {getSpacedDecimal((weight * price).toFixed())} грн</Body>
       </DataRow>
     </DataWrapper>
     <ControlsWrapper>

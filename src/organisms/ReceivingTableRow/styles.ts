@@ -25,8 +25,9 @@ export const NameTableWrapper = styled.div`
 
 export const GroupTableWrapper = styled.div<{ rows: number }>`
   display: flex;
-  height: ${({ rows }) => rows * 44}px;
+  height: ${({ rows }) => rows * 44 + (rows - 1) * 2}px;
   outline: 2px solid ${({ theme }) => theme.colors.black.light};
+  border-radius: 4px;
   outline-offset: -2px;
 `;
 

@@ -80,7 +80,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
 
   const handleCreateOwnReceivingConfirm = () => {
     createOwnReceiving({
-      weight: Number(weight),
+      weight: Math.round(Number(weight.replace(',', '.')) * 100) / 100,
       timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
@@ -94,7 +94,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
   const handleEditOwnReceivingConfirm = () => {
     updateOwnReceiving({
       _id: editReceivingId,
-      weight: Number(weight),
+      weight: Math.round(Number(weight.replace(',', '.')) * 100) / 100,
       timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
@@ -131,7 +131,7 @@ const OwnReceivings: FunctionComponent<IPageProps> = ({ name }) => {
           <>
             <AllWeightContainer>
               <Body>Всього</Body>
-              <Body>{ getSpacedDecimal(receivings.reduce((acc, curr) => acc + curr.weight, 0)) } кг</Body>
+              <Body>{ getSpacedDecimal(receivings.reduce((acc, curr) => acc + curr.weight, 0).toFixed(2)) } кг</Body>
             </AllWeightContainer>
             <RoundedButton
               text="Додати прийоми"

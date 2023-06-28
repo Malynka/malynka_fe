@@ -8,7 +8,19 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     tsConfigPaths(),
-    react(),
+    react({
+      babel: {
+        plugins: [
+          [
+            'babel-plugin-styled-components',
+            {
+              displayName: true,
+              fileName: false
+            }
+          ] 
+        ]
+      }
+    }),
     electron([
       {
         // Main-Process entry file of the Electron App.

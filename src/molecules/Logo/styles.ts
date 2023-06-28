@@ -5,7 +5,7 @@ export const LogoContainer = styled.div`
   column-gap: 16px;
   justify-content: center;
   align-items: center;
-  padding: 24px 20px;
+  padding: 16px;
 
   user-select: none;
   pointer-events: none;

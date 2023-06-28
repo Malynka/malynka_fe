@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MenuContainer = styled.div`
-  width: 280px;
+  width: 250px;
   min-height: 100%;
 
   background-color: ${({ theme }) => theme.colors.white.dark};

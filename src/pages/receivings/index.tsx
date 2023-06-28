@@ -115,7 +115,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
         id: uniqueId(),
         weight,
         price,
-        sum: getSpacedDecimal(weight * price)
+        sum: weight * price
       })));
       setClient(receiving.client._id);
       setDate(dayjs(receiving.timestamp));
@@ -268,12 +268,12 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
             <CounterContainer>
               <AllWeightIcon />
               <Body>Загальна вага:</Body>
-              <Body>{rows.reduce((acc, { weight }) => acc + (weight === '' ? 0 : weight), 0)} кг</Body>
+              <Body>{rows.reduce((acc, { weight }) => acc + (weight === '' ? 0 : weight), 0).toFixed(2).replace('.', ',')} кг</Body>
             </CounterContainer>
             <CounterContainer>
               <AllPriceIcon />
               <Body>Загальна ціна:</Body>
-              <Body>{getSpacedDecimal(rows.reduce((acc, { weight, price }) => acc + (weight === '' || price === '' ? 0 : weight * price), 0).toFixed(2))} грн</Body>
+              <Body>{getSpacedDecimal(Math.round(rows.reduce((acc, { weight, price }) => acc + (weight === '' || price === '' ? 0 : Number(weight) * Number(price)), 0))).replace('.', ',')} грн</Body>
             </CounterContainer>
           </CountersWrapper>
         }

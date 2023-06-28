@@ -118,7 +118,7 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
           <Grid item xs={2}>
             <StatPlate
               label="Зароблено"
-              value={stats?.earned || 0}
+              value={Math.round(stats?.earned || 0)}
               unit="грн"
             />
           </Grid>
@@ -132,7 +132,7 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
           <Grid item xs={2}>
             <StatPlate
               label="Прибуток"
-              value={(stats?.earned || 0) - (stats?.totalPrice || 0)}
+              value={Math.round((stats?.earned || 0) - (stats?.totalPrice || 0))}
               unit="грн"
             />
           </Grid>

@@ -15,7 +15,7 @@ const Table: FunctionComponent<ITableProps> = ({ width = '100%', rows }) => {
         rows.map((r, rIndex) => (
           <TableRow key={rIndex}>
             {r.map((item, index) => (
-              <TableCell key={`${index}-${item}`}>{typeof item === 'number' ? getSpacedDecimal(item) : item}</TableCell>
+              <TableCell key={`${index}-${item}`}>{(getSpacedDecimal(Number(item).toFixed(2))).replace('.', ',')}</TableCell>
             ))}
           </TableRow>
         ))

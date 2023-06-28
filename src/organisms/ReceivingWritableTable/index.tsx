@@ -7,6 +7,7 @@ import {
   GridActionsCellItem,
   GridPreProcessEditCellProps,
   GridRowId,
+  GridCell,
 } from '@mui/x-data-grid';
 import PositionIcon from '@mui/icons-material/InboxRounded';
 import DeleteIcon from '@mui/icons-material/DeleteRounded';
@@ -46,9 +47,10 @@ const ReceivingWritableTable: FunctionComponent<IReceivingWritableTableProps> = 
       const changedRowIndex = res.findIndex((r) => r.id === params.id);
 
       const changedRow = { ...res[changedRowIndex] };
-      changedRow[params.field] = params.value !== '' ? Number(params.value) : '';
 
-      changedRow.sum = changedRow.weight && changedRow.price ? getSpacedDecimal(changedRow.weight * changedRow.price) : '';
+      changedRow[params.field] = params.value ? typeof params.value === 'string' ? Math.round(Number(params.value.replace(',', '.')) * 100) / 100 : params.value : '';
+
+      changedRow.sum = changedRow.weight && changedRow.price ? Math.round(changedRow.weight * changedRow.price * 100) / 100 : '';
 
       res.splice(changedRowIndex, 1, changedRow);
       return res;
@@ -71,7 +73,8 @@ const ReceivingWritableTable: FunctionComponent<IReceivingWritableTableProps> = 
       editable: true,
       preProcessEditCellProps,
       flex: 1,
-      sortable: false
+      sortable: false,
+      valueFormatter: (params) => params.value ? Number(params.value).toFixed(2).replace('.', ',') : ''
     },
     {
       field: 'price',
@@ -79,17 +82,21 @@ const ReceivingWritableTable: FunctionComponent<IReceivingWritableTableProps> = 
       editable: true,
       preProcessEditCellProps,
       flex: 1,
-      sortable: false
+      sortable: false,
+      valueFormatter: (params) => params.value ? Number(params.value).toFixed(2).replace('.', ',') : ''
     },
     {
       field: 'sum',
       headerName: 'Сума (грн)',
       editable: false,
       flex: 1,
-      sortable: false
+      sortable: false,
+      valueFormatter: (params) => params.value ? Number(params.value).toFixed(2).replace('.', ',') : ''
+      
     },
     {
       field: 'actions',
+      width: 50,
       headerName: '',
       sortable: false,
       renderCell: ({ id }) => {
@@ -116,6 +123,8 @@ const ReceivingWritableTable: FunctionComponent<IReceivingWritableTableProps> = 
           onCellEditCommit={handleEditCell}
           disableColumnMenu
           disableSelectionOnClick
+          showCellRightBorder
+          showColumnRightBorder
         />
       </TableWrapper>
       <RoundedButton

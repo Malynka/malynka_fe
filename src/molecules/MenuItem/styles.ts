@@ -4,7 +4,7 @@ export const MenuItemContainer = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   column-gap: 16px;
-  padding: 8px 16px;
+  padding: 4px 16px;
   cursor: pointer;
   transition: 0.5s all;
   

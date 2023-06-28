@@ -18,8 +18,7 @@ export const MuiSelect = styled(Select)`
     height: 56px;
     display: flex;
     align-items: center;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 8px;
     padding-left: 12px;
     border-radius: 43px;
   }

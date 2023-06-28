@@ -94,8 +94,8 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
 
   const handleCreateSaleConfirm = () => {
     createSale({
-      weight: Number(weight),
-      price: Number(price),
+      weight: Math.round(Number(weight.replace(',', '.')) * 100) / 100,
+      price: Math.round(Number(price.replace(',', '.')) * 100) / 100,
       timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
@@ -109,8 +109,8 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
   const handleEditSaleConfirm = () => {
     updateSale({
       _id: editReceivingId,
-      weight: Number(weight),
-      price: Number(price),
+      weight: Math.round(Number(weight.replace(',', '.')) * 100) / 100,
+      price: Math.round(Number(price.replace(',', '.')) * 100) / 100,
       timestamp: date!.toDate().getTime()
     }).then(() => {
       fetchAll();
@@ -176,7 +176,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
             </AggregationContainer>
             <AggregationContainer>
               <Body>Зароблено</Body>
-              <Body>{getSpacedDecimal(sales.reduce((acc, curr) => acc + curr.weight * curr.price, 0))} грн</Body>
+              <Body>{getSpacedDecimal(sales.reduce((acc, curr) => acc + curr.weight * curr.price, 0).toFixed())} грн</Body>
             </AggregationContainer>
             <SmallSelect
               options={years.map((y) => ({
@@ -220,7 +220,7 @@ const Sales: FunctionComponent<IPageProps> = ({ name }) => {
           <CounterContainer>
             <PriceIcon />
             <Body>Загальна ціна:</Body>
-            <Body>{getSpacedDecimal(Number(weight) * Number(price))} грн</Body>
+            <Body>{getSpacedDecimal((Number(weight.replace(',', '.')) * Number(price.replace(',', '.'))).toFixed())} грн</Body>
           </CounterContainer>
         }
       >
