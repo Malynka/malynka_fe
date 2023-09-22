@@ -47,11 +47,13 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   const [dialogMode, setDialogMode] = useState<'create' | 'edit'>('create');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const [receivings, setReceivings] = useState<IReceiving[] | null>();
+  const [receivings, setReceivings] = useState<IReceiving[]>();
   const [years, setYears] = useState<number[]>([]);
   const [year, setYear] = useState<number | null>(null);
   const [clients, setClients] = useState<IClient[]>([]);
   const [client, setClient] = useState<string>('default');
+
+  const [chosenClient, setChosenClient] = useState<string>('default');
 
   const [date, setDate] = useState<Dayjs>(dayjs(Date.now()));
 
@@ -61,6 +63,8 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
 
   const [editReceivingId, setEditReceivingId] = useState<string>('');
   const [receivingToDelete, setReceivingToDelete] = useState<IReceiving | null>(null);
+
+  const showedReceivings = chosenClient === 'default' ? receivings : receivings?.filter(({ client }) => chosenClient === client._id);
 
   const getData = useCallback(async () => {
     if (year) {
@@ -210,7 +214,19 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
         title={name}
         controls={
           <>
-            <SmallSelect
+          <SmallSelect
+            defaultLabel="Усі клієнти"
+            options={clients.map((c) => ({
+              label: c.name,
+              value: c._id
+            }))}
+            option={chosenClient}
+            onChange={(event) => {
+              setChosenClient(event.target.value as string);
+            }}
+          />
+
+          <SmallSelect
               options={years.map((y) => ({
                 label: y,
                 value: y
@@ -239,7 +255,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
       />  
       
       <ReceivingsContainer>
-          {receivings ? receivings?.map(({ _id, client, timestamp, records }) => (
+          {showedReceivings ? showedReceivings.map(({ _id, client, timestamp, records }) => (
             <ReceivingTableRow
               key={`${client._id}-${_id}`}
               timestamp={timestamp}
@@ -255,7 +271,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
             />
           )) : (
           <LoaderWrapper>
-            <CircularProgress color="primary" />
+            <CircularProgress variant="indeterminate" disableShrink color="primary" />
           </LoaderWrapper>
         )}
       </ReceivingsContainer>

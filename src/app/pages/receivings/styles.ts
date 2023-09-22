@@ -6,6 +6,7 @@ export const ReceivingsContainer = styled.div`
   row-gap: 12px;
   padding-bottom: 24px;
   flex: 1;
+  overflow-y: auto;
 `;
 
 export const InputsWrapper = styled.div`
