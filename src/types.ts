@@ -50,3 +50,9 @@ export type UpdatingMessage = {
   status: 'error' | 'updatable',
   value: string;
 };
+
+export type DumpingMessage = {
+  status: 'success' | 'error',
+  message: string;
+  code: number;
+};

@@ -30,9 +30,8 @@ const Dialog: FunctionComponent<PropsWithChildren<IDialogProps>> = ({
   return (
     <StyledDialog open={open} onClose={onCancel} onKeyDown={onKeyDown}>
       <StyledTitle>{title}</StyledTitle>
-      <DialogContent >
+      <DialogContent>
         {children}
-        
       </DialogContent>
       <DialogActions>
         <PreButtonsComponentWrapper>

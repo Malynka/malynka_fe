@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button, buttonClasses } from "@mui/material";
 
-export const StyledMuiButton = styled(Button)`
+export const StyledMuiButton = styled(Button)<{ bgColor: string }>`
   &.${buttonClasses.root} {
     width: 130px;
     height: 130px;
@@ -9,6 +9,11 @@ export const StyledMuiButton = styled(Button)`
     flex-direction: column;
     gap: 8px;
     text-transform: initial;
+    background-color: ${({ bgColor }) => bgColor};
+
+    :hover {
+      background-color: ${({ bgColor }) => bgColor};
+    }
 
     .${buttonClasses.startIcon} {
       margin: 0;

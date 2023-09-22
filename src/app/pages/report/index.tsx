@@ -1,15 +1,16 @@
 import type { FunctionComponent } from 'react';
 import { useState, useEffect } from 'react';
-import { saveAs } from 'file-saver';
-import dayjs, { Dayjs } from 'dayjs';
 import { SelectChangeEvent } from '@mui/material';
+import dayjs, { Dayjs } from 'dayjs';
+import { saveAs } from 'file-saver';
+import { getClients } from '@api/client';
+import { getReportByRange, getYears, } from '@api/raport';
+import { useDocumentTitle } from '@hooks';
 import { RoundedButton, SmallSelect, Switch } from '@molecules';
 import { Header, DatePicker } from '@organisms';
-import { useDocumentTitle } from '@hooks';
-import { getReportByRange, getYears, getClients } from '@middleware';
-import { IClient } from '@types';
-import { IPageProps } from "../types";
+import type { IClient } from '@types';
 import { ReportContainer, ControlsWrapper, DatePickersWrapper } from './styles';
+import type { IPageProps } from "../types";
 
 const Report: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);

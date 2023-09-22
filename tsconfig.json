@@ -16,17 +16,18 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@api/*": ["src/api/*"],
       "@hooks": ["src/hooks"],
       "@mui/styled-engine": ["node_modules/@mui/styled-engine-sc"],
       "@types": ["src/types.ts"],
-      "@atoms": ["src/atoms"],
-      "@molecules": ["src/molecules"],
-      "@organisms": ["src/organisms"],
-      "@pages": ["src/pages"],
+      "@atoms": ["src/ui/atoms"],
+      "@molecules": ["src/ui/molecules"],
+      "@organisms": ["src/ui/organisms"],
+      "@pages": ["src/app/pages"],
       "@theme": ["src/app/theme"],
-      "@typography": ["src/typography"],
+      "@typography": ["src/ui/typography"],
       "@utils": ["src/utils.ts"],
-      "@middleware": ["src/middleware"]
+
     },
 
     /* Linting */

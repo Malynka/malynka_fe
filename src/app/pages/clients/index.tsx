@@ -12,7 +12,7 @@ import { Body } from '@typography';
 import { RoundedButton, Input, DataGrid } from "@molecules";
 import { Header, Dialog } from "@organisms";
 import { useDocumentTitle } from "@hooks";
-import { getClients, createClient, updateClient, deleteClient, restoreClient } from "@middleware";
+import { getClients, createClient, updateClient, deleteClient, restoreClient } from "@api/client";
 import { IClient } from "@types";
 import { IPageProps } from "../types";
 import { ClientsContainer, InputsWrapper } from "./styles";

@@ -1,7 +1,9 @@
 import { ipcMain, app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
-import type { UpdatingMessage } from '../src/types';
+import type { UpdatingMessage, DumpingMessage } from '@types';
+import { spawn } from 'node:child_process';
+import { makeDump } from './commands';
 
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
@@ -39,9 +41,62 @@ ipcMain.handle('downloadUpdate', () => {
   autoUpdater.downloadUpdate().catch(sentError('Під час завантаження оновлень'));
 });
 
+
 ipcMain.handle('update', () => {
   autoUpdater.quitAndInstall(true, true);
 })
+
+async function run(executable: string, args: string[], opts = {}) {
+    return new Promise<number>((resolve, reject) => {
+        const child = spawn(executable, args, {
+            shell: true,
+            stdio: ["pipe"],
+            ...opts,
+        });
+        child.on("error", reject);
+        child.on("exit", (code) => {
+            if (code === 0) {
+                resolve(code);
+            } else {
+                const e: Error & {code? : number | null } = new Error('Process exited with error code ' + code);
+                e.code = code;
+                reject(e);
+            }
+        });
+    });
+}
+
+ipcMain.handle('make dump', async () => {
+  try {
+    const code = await run('powershell', ["-executionpolicy", "unrestricted", "-Command", makeDump()]);
+    win?.webContents.send('dump ended', {
+      status: 'success',
+      message: 'Резевна копія успішно збережена',
+      code
+    } as DumpingMessage);
+  } catch(e: any) {
+    win?.webContents.send('dump ended', {
+      status: 'error',
+      message: 'Під час сторення резервної копії даних сталася помилка',
+      code: e.code
+    } as DumpingMessage);
+  }
+ 
+  // execFile(/*"Write-Output $env:Path"*/ "D:\\Projects\\malynka\\malynka_fe\\scripts\\make_dump.ps1", { shell: 'powershell.exe', windowsHide: true }, (err, stdout, stderr) => {
+  //   if (err) {
+  //     console.log('ERROR', err);
+  //     return;
+  //   }
+
+  //   if (stderr) {
+  //     console.log('STD ERROR', stderr);
+  //     return;
+  //   }
+
+  //   console.log('STD OUT', stdout);
+  // });
+});
+
 
 // The built directory structure
 //

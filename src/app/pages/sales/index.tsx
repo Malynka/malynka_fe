@@ -5,15 +5,16 @@ import { InputAdornment } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import WeightIcon from '@mui/icons-material/AllInboxRounded';
 import PriceIcon from '@mui/icons-material/AttachMoneyRounded';
-import { Body } from '@typography';
+import { getSalesByYear, createSale, updateSale, deleteSale } from '@api/sale';
 import { RoundedButton, Input, SmallSelect } from '@molecules';
 import { Header, SaleRow, Dialog, DatePicker } from '@organisms';
-import { getSalesByYear, createSale, updateSale, deleteSale, getYears } from '@middleware';
+import { Body } from '@typography';
+import { getYears } from '@api/raport';
 import { useDocumentTitle } from '@hooks';
 import { getSpacedDecimal, FLOAT_NUMBER_REGEX } from '@utils';
-import { ISale } from '@types';
-import { IPageProps } from "../types";
+import type { ISale } from '@types';
 import { SalesContainer, InputsWrapper, InputsFlexWrapper, CounterContainer, AggregationContainer } from './styles'; 
+import type { IPageProps } from "../types";
 
 const Sales: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
