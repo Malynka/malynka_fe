@@ -6,18 +6,20 @@ import { useNavigate } from 'react-router';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SaveIcon from '@mui/icons-material/SaveRounded';
-import { Headline } from '@typography';
+import RefreshIcon from '@mui/icons-material/RefreshRounded';
+import { Body, Headline } from '@typography';
 import { PlateIconButton, SmallSelect, StatPlate } from '@molecules';
 import { InfoDialog, Header } from '@organisms';
 import { useDocumentTitle } from '@hooks';
 import { getYears, getStats } from '@api/raport';
-import { DumpingMessage, IStats } from '@types';
+import { CommandRunMessage, IStats } from '@types';
 import {
   HomeContainer,
   QuickAccessButtonsWrapper,
   StatsTitleYearWrapper
 } from './styles';
 import { IPageProps } from "../types";
+
 
 const Home: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
@@ -29,8 +31,13 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
   const [stats, setStats] = useState<IStats | null>(null);
   const [mounted, setMounted] = useState(false);
   
+  const [backdropMessage, setBackdropMessage] = useState('');
+
   const [dumping, setDumping] = useState<'init' | 'loading' | 'loaded'>('init');
-  const [dumpingMessage, setDumpingMessage] = useState<DumpingMessage | undefined>();
+  const [dumpingMessage, setDumpingMessage] = useState<CommandRunMessage | undefined>();
+
+  const [serverUpdating, setServerUpdating] = useState<'init' | 'loading' | 'loaded'>('init');
+  const [serverUpdatingMessage, setServerUpdatingMessage] = useState<CommandRunMessage | undefined>();
 
   const handleAddReceivingButtonClick = () => {
     navigate('/receivings', { state: { addReceiving: true } });
@@ -41,9 +48,25 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
     ipcRenderer.invoke('make dump');
   };
 
-  const handleDumpEnded = useCallback((_: IpcRendererEvent, m: DumpingMessage) => {
+  const handleUpdateServerButtonClick = () => {
+    setServerUpdating('loading');
+    ipcRenderer.invoke('update server');
+  };
+
+  const handleDumpEnded = useCallback((_: IpcRendererEvent, m: CommandRunMessage) => {
     setDumpingMessage(m);
     setDumping('loaded');
+  }, []);
+
+  const handleUpdateServerProgress = useCallback((_: IpcRendererEvent, m: string) => {
+    setBackdropMessage(m);
+  }, []);
+
+  const handleUpdateServerEnded = useCallback((_: IpcRendererEvent, m: CommandRunMessage) => {
+    console.log('ended');
+    setBackdropMessage('');
+    setServerUpdatingMessage(m);
+    setServerUpdating('loaded');
   }, []);
 
   useEffect(() => {
@@ -67,28 +90,49 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
 
   useEffect(() => {
     ipcRenderer.on('dump ended', handleDumpEnded);
+    ipcRenderer.on('update server progress', handleUpdateServerProgress);
+    ipcRenderer.on('update server ended', handleUpdateServerEnded);
 
     return () => {
       ipcRenderer.off('dump ended', handleDumpEnded);
+      ipcRenderer.off('update server progress', handleUpdateServerProgress);
+      ipcRenderer.on('update server ended', handleUpdateServerEnded);
     };
   }, []);
 
   return (
     <>
-      <Backdrop open={dumping === 'loading'} sx={{ color: "#fff", zIndex: 1002 }}>
+      <Backdrop
+        open={[dumping, serverUpdating].includes("loading")}
+        sx={{ color: "#fff", zIndex: 1002, flexDirection: "column" }}
+      >
         <CircularProgress color="inherit" />
+        {!!backdropMessage && <Body>{backdropMessage}</Body>}
       </Backdrop>
       <InfoDialog
-        open={dumping === 'loaded'}
+        open={dumping === "loaded"}
         status={dumpingMessage?.status}
         title="Створення резервної копії"
-        message={dumpingMessage?.message || ''}
+        message={dumpingMessage?.message || ""}
         onClose={() => {
-          setDumping('init');
+          setDumping("init");
 
           setTimeout(() => {
             setDumpingMessage(undefined);
-          }, 200);  
+          }, 200);
+        }}
+      />
+      <InfoDialog
+        open={serverUpdating === "loaded"}
+        status={serverUpdatingMessage?.status}
+        title="Оновлення сервера"
+        message={serverUpdatingMessage?.message || ""}
+        onClose={() => {
+          setServerUpdating("init");
+
+          setTimeout(() => {
+            setServerUpdatingMessage(undefined);
+          }, 200);
         }}
       />
       <Header title={name} />
@@ -108,6 +152,12 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
             text="Резервна копія"
             icon={<SaveIcon />}
             onClick={handleMakeDumpButtonClick}
+          />
+          <PlateIconButton
+            bgColor="#f0f0f0"
+            text="Оновити сервер"
+            icon={<RefreshIcon />}
+            onClick={handleUpdateServerButtonClick}
           />
         </QuickAccessButtonsWrapper>
         <StatsTitleYearWrapper>

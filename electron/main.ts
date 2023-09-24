@@ -1,9 +1,8 @@
 import { ipcMain, app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
-import type { UpdatingMessage, DumpingMessage } from '@types';
+import type { UpdatingMessage, CommandRunMessage } from '@types';
 import { spawn } from 'node:child_process';
-import { makeDump } from './commands';
 
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
@@ -46,55 +45,77 @@ ipcMain.handle('update', () => {
   autoUpdater.quitAndInstall(true, true);
 })
 
-async function run(executable: string, args: string[], opts = {}) {
-    return new Promise<number>((resolve, reject) => {
-        const child = spawn(executable, args, {
-            shell: true,
-            stdio: ["pipe"],
-            ...opts,
-        });
-        child.on("error", reject);
-        child.on("exit", (code) => {
-            if (code === 0) {
-                resolve(code);
-            } else {
-                const e: Error & {code? : number | null } = new Error('Process exited with error code ' + code);
-                e.code = code;
-                reject(e);
-            }
-        });
+interface IRunOptions {
+  args?: string[];
+}
+
+async function run(type: 'file' | 'command', executable: string, { args = [] }: IRunOptions = {}) {
+  return new Promise<number>((resolve, reject) => {
+    const child = spawn(
+      "powershell",
+      [
+        "-executionpolicy",
+        "unrestricted",
+        ...args,
+        `-${type === 'file' ? 'File' : 'Command'}`,
+        executable
+      ],
+      {
+        shell: true,
+        stdio: ["pipe", process.stdout, process.stderr],
+      }
+    );
+    child.on("error", reject);
+    child.on("exit", (code) => {
+      if (code === 0) {
+        resolve(code);
+      } else {
+        const e: Error & { code?: number | null } = new Error(
+          "Process exited with error code " + code
+        );
+        e.code = code;
+        reject(e);
+      }
     });
+  });
 }
 
 ipcMain.handle('make dump', async () => {
   try {
-    const code = await run('powershell', ["-executionpolicy", "unrestricted", "-Command", makeDump()]);
+    await run('command', 'make_dump.ps1');
     win?.webContents.send('dump ended', {
       status: 'success',
       message: 'Резевна копія успішно збережена',
-      code
-    } as DumpingMessage);
+    } as CommandRunMessage);
   } catch(e: any) {
     win?.webContents.send('dump ended', {
       status: 'error',
       message: 'Під час сторення резервної копії даних сталася помилка',
-      code: e.code
-    } as DumpingMessage);
+    } as CommandRunMessage);
   }
- 
-  // execFile(/*"Write-Output $env:Path"*/ "D:\\Projects\\malynka\\malynka_fe\\scripts\\make_dump.ps1", { shell: 'powershell.exe', windowsHide: true }, (err, stdout, stderr) => {
-  //   if (err) {
-  //     console.log('ERROR', err);
-  //     return;
-  //   }
+});
 
-  //   if (stderr) {
-  //     console.log('STD ERROR', stderr);
-  //     return;
-  //   }
+ipcMain.handle('update server', async () => {
+  try {
+    win?.webContents.send('update server progress', 'Створення резервної копії...');
+    await run('command', 'make_dump.ps1');
 
-  //   console.log('STD OUT', stdout);
-  // });
+    win?.webContents.send('update server progress', 'Оновлення сервера...');
+    await run('command', 'update_server.ps1');
+
+    win?.webContents.send('update server progress', 'Перезапуск системної служби...');
+    await run('command', 'restart_service.ps1');
+
+    win?.webContents.send('update server ended', {
+      status: 'success',
+      message: 'Сервер успішно оновлено'
+    } as CommandRunMessage);
+  } catch(e: any) {
+    win?.webContents.send('update server ended', {
+      status: 'error',
+      message: 'Під час оновлення серверу сталася помилка',
+    } as CommandRunMessage);
+  }
 });
 
 

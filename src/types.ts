@@ -51,7 +51,7 @@ export type UpdatingMessage = {
   value: string;
 };
 
-export type DumpingMessage = {
+export type CommandRunMessage = {
   status: 'success' | 'error',
   message: string;
   code: number;
