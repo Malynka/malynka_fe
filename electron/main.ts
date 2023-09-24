@@ -3,6 +3,10 @@ import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
 import type { UpdatingMessage, CommandRunMessage } from '@types';
 import { spawn } from 'node:child_process';
+import { createHash } from 'crypto';
+import restore_data_password_hash from './restore_data_password_hash.json';
+
+console.log(createHash('sha512').update('0321').digest('hex'));
 
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
@@ -116,6 +120,30 @@ ipcMain.handle('update server', async () => {
     win?.webContents.send('update server ended', {
       status: 'error',
       message: 'Під час оновлення серверу сталася помилка',
+    } as CommandRunMessage);
+  }
+});
+
+ipcMain.handle('restore data', async (event, password: string) => {
+  if (createHash('sha512').update(password).digest('hex') !== restore_data_password_hash) {
+    win?.webContents.send('restore data ended', {
+      status: 'error',
+      message: 'Невірний пароль'
+    } as CommandRunMessage);
+    return;
+  }
+
+  try {
+    await run('command', 'restore_db.ps1');
+
+    win?.webContents.send('restore data ended', {
+      status: 'success',
+      message: 'Дані успішно оновлено (або ж команда була скасована)'
+    } as CommandRunMessage);
+  } catch(e) {
+    win?.webContents.send('restore data ended', {
+      status: 'error',
+      message: 'Під час відновлення даних сталася помилка'
     } as CommandRunMessage);
   }
 });

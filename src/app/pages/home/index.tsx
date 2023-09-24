@@ -1,25 +1,25 @@
-import type { IpcRendererEvent } from 'electron';
-import { ipcRenderer } from 'electron';
-import type { FunctionComponent } from 'react';
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
-import { Grid, Backdrop, CircularProgress } from '@mui/material';
-import AddIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import SaveIcon from '@mui/icons-material/SaveRounded';
-import RefreshIcon from '@mui/icons-material/RefreshRounded';
-import { Body, Headline } from '@typography';
-import { PlateIconButton, SmallSelect, StatPlate } from '@molecules';
-import { InfoDialog, Header } from '@organisms';
-import { useDocumentTitle } from '@hooks';
-import { getYears, getStats } from '@api/raport';
-import { CommandRunMessage, IStats } from '@types';
+import type { IpcRendererEvent } from "electron";
+import { ipcRenderer } from "electron";
+import type { FunctionComponent } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router";
+import { Grid, Backdrop, CircularProgress } from "@mui/material";
+import AddIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import SaveIcon from "@mui/icons-material/SaveRounded";
+import RefreshIcon from "@mui/icons-material/RefreshRounded";
+import RepartitionIcon from "@mui/icons-material/RepartitionRounded";
+import { Body, Headline } from "@typography";
+import { PlateIconButton, SmallSelect, StatPlate } from "@molecules";
+import { InfoDialog, Header, PasswordDialog } from "@organisms";
+import { useDocumentTitle } from "@hooks";
+import { getYears, getStats } from "@api/raport";
+import { CommandRunMessage, IStats } from "@types";
 import {
   HomeContainer,
   QuickAccessButtonsWrapper,
-  StatsTitleYearWrapper
-} from './styles';
+  StatsTitleYearWrapper,
+} from "./styles";
 import { IPageProps } from "../types";
-
 
 const Home: FunctionComponent<IPageProps> = ({ name }) => {
   useDocumentTitle(name);
@@ -27,47 +27,91 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
   const navigate = useNavigate();
 
   const [years, setYears] = useState<number[]>([]);
-  const [year, setYear] = useState<number | 'default'>('default');
+  const [year, setYear] = useState<number | "default">("default");
   const [stats, setStats] = useState<IStats | null>(null);
   const [mounted, setMounted] = useState(false);
-  
-  const [backdropMessage, setBackdropMessage] = useState('');
 
-  const [dumping, setDumping] = useState<'init' | 'loading' | 'loaded'>('init');
-  const [dumpingMessage, setDumpingMessage] = useState<CommandRunMessage | undefined>();
+  const [backdropMessage, setBackdropMessage] = useState("");
 
-  const [serverUpdating, setServerUpdating] = useState<'init' | 'loading' | 'loaded'>('init');
-  const [serverUpdatingMessage, setServerUpdatingMessage] = useState<CommandRunMessage | undefined>();
+  const [dumping, setDumping] = useState<"init" | "loading" | "loaded">("init");
+  const [dumpingMessage, setDumpingMessage] = useState<
+    CommandRunMessage | undefined
+  >();
+
+  const [serverUpdating, setServerUpdating] = useState<
+    "init" | "loading" | "loaded"
+  >("init");
+  const [serverUpdatingMessage, setServerUpdatingMessage] = useState<
+    CommandRunMessage | undefined
+  >();
+
+  const [dataRestoring, setDataRestoring] = useState<
+    "init" | "loading" | "loaded"
+  >("init");
+  const [dataRestoringMessage, setDataRestoringMessage] = useState<
+    CommandRunMessage | undefined
+  >();
+  const [restoreDatapasswordDialogOpen, setRestoreDataPasswordDialogOpen] =
+    useState<boolean>(false);
 
   const handleAddReceivingButtonClick = () => {
-    navigate('/receivings', { state: { addReceiving: true } });
+    navigate("/receivings", { state: { addReceiving: true } });
   };
 
   const handleMakeDumpButtonClick = () => {
-    setDumping('loading');
-    ipcRenderer.invoke('make dump');
+    setDumping("loading");
+    ipcRenderer.invoke("make dump");
   };
 
   const handleUpdateServerButtonClick = () => {
-    setServerUpdating('loading');
-    ipcRenderer.invoke('update server');
+    setServerUpdating("loading");
+    ipcRenderer.invoke("update server");
   };
 
-  const handleDumpEnded = useCallback((_: IpcRendererEvent, m: CommandRunMessage) => {
-    setDumpingMessage(m);
-    setDumping('loaded');
-  }, []);
+  const handleRestoreDataButtonClick = () => {
+    setRestoreDataPasswordDialogOpen(true);
+  };
 
-  const handleUpdateServerProgress = useCallback((_: IpcRendererEvent, m: string) => {
-    setBackdropMessage(m);
-  }, []);
+  const handleRestoreDataPasswordProvided = (password: string | undefined) => {
+    setRestoreDataPasswordDialogOpen(false);
 
-  const handleUpdateServerEnded = useCallback((_: IpcRendererEvent, m: CommandRunMessage) => {
-    console.log('ended');
-    setBackdropMessage('');
-    setServerUpdatingMessage(m);
-    setServerUpdating('loaded');
-  }, []);
+    if (password) {
+      setDataRestoring("loading");
+      ipcRenderer.invoke("restore data", password);
+    }
+  };
+
+  const handleDumpEnded = useCallback(
+    (_: IpcRendererEvent, m: CommandRunMessage) => {
+      setDumpingMessage(m);
+      setDumping("loaded");
+    },
+    []
+  );
+
+  const handleUpdateServerProgress = useCallback(
+    (_: IpcRendererEvent, m: string) => {
+      setBackdropMessage(m);
+    },
+    []
+  );
+
+  const handleUpdateServerEnded = useCallback(
+    (_: IpcRendererEvent, m: CommandRunMessage) => {
+      setBackdropMessage("");
+      setServerUpdatingMessage(m);
+      setServerUpdating("loaded");
+    },
+    []
+  );
+
+  const handleRestoreDataEnded = useCallback(
+    (_: IpcRendererEvent, m: CommandRunMessage) => {
+      setDataRestoringMessage(m);
+      setDataRestoring("loaded");
+    },
+    []
+  );
 
   useEffect(() => {
     getYears().then(({ data }) => {
@@ -75,35 +119,36 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
       setMounted(true);
     });
   }, []);
-  
+
   useEffect(() => {
-    setYear(years[0] || 'default');
+    setYear(years[0] || "default");
   }, [years]);
 
   useEffect(() => {
     if (mounted) {
-      getStats(year === 'default' ? '' : year).then(({ data }) => {
+      getStats(year === "default" ? "" : year).then(({ data }) => {
         setStats(data);
       });
     }
   }, [year, mounted]);
 
   useEffect(() => {
-    ipcRenderer.on('dump ended', handleDumpEnded);
-    ipcRenderer.on('update server progress', handleUpdateServerProgress);
-    ipcRenderer.on('update server ended', handleUpdateServerEnded);
+    ipcRenderer.on("dump ended", handleDumpEnded);
+    ipcRenderer.on("update server progress", handleUpdateServerProgress);
+    ipcRenderer.on("update server ended", handleUpdateServerEnded);
+    ipcRenderer.on("restore data ended", handleRestoreDataEnded);
 
     return () => {
-      ipcRenderer.off('dump ended', handleDumpEnded);
-      ipcRenderer.off('update server progress', handleUpdateServerProgress);
-      ipcRenderer.on('update server ended', handleUpdateServerEnded);
+      ipcRenderer.off("dump ended", handleDumpEnded);
+      ipcRenderer.off("update server progress", handleUpdateServerProgress);
+      ipcRenderer.off("restore data ended", handleRestoreDataEnded);
     };
   }, []);
 
   return (
     <>
       <Backdrop
-        open={[dumping, serverUpdating].includes("loading")}
+        open={[dumping, serverUpdating, dataRestoring].includes("loading")}
         sx={{ color: "#fff", zIndex: 1002, flexDirection: "column" }}
       >
         <CircularProgress color="inherit" />
@@ -135,6 +180,23 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
           }, 200);
         }}
       />
+      <InfoDialog
+        open={dataRestoring === "loaded"}
+        status={dataRestoringMessage?.status}
+        title="Відновлення даних"
+        message={dataRestoringMessage?.message || ""}
+        onClose={() => {
+          setDataRestoring("init");
+
+          setTimeout(() => {
+            setDataRestoringMessage(undefined);
+          }, 200);
+        }}
+      />
+      <PasswordDialog
+        open={restoreDatapasswordDialogOpen}
+        onClose={handleRestoreDataPasswordProvided}
+      />
       <Header title={name} />
       <HomeContainer>
         <Headline type="H4" margin="12px 0">
@@ -158,6 +220,12 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
             text="Оновити сервер"
             icon={<RefreshIcon />}
             onClick={handleUpdateServerButtonClick}
+          />
+          <PlateIconButton
+            bgColor="#eb0c0c"
+            text="Відновити дані"
+            icon={<RepartitionIcon />}
+            onClick={handleRestoreDataButtonClick}
           />
         </QuickAccessButtonsWrapper>
         <StatsTitleYearWrapper>
@@ -251,6 +319,6 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
       </HomeContainer>
     </>
   );
-}
+};
 
 export default Home;
