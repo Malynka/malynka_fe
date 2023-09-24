@@ -124,7 +124,7 @@ ipcMain.handle('update server', async () => {
   }
 });
 
-ipcMain.handle('restore data', async (event, password: string) => {
+ipcMain.handle('restore data', async (_, password: string) => {
   if (createHash('sha512').update(password).digest('hex') !== restore_data_password_hash) {
     win?.webContents.send('restore data ended', {
       status: 'error',
