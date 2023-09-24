@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Body } from '@typography';
-import type { UpdatingMessage } from '../../types';
+import type { UpdatingMessage } from '@types';
 
 export const DownloadProgress = styled.div<{ progress: number }>`
   position: absolute;

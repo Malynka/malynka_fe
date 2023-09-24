@@ -56,6 +56,8 @@ async function run(type: 'file' | 'command', executable: string, { args = [] }: 
       [
         "-executionpolicy",
         "unrestricted",
+        "-windowstyle",
+        "hidden",
         ...args,
         `-${type === 'file' ? 'File' : 'Command'}`,
         executable
