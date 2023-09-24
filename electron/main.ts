@@ -6,8 +6,6 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'crypto';
 import restore_data_password_hash from './restore_data_password_hash.json';
 
-console.log(createHash('sha512').update('0321').digest('hex'));
-
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 
@@ -101,7 +99,15 @@ ipcMain.handle('make dump', async () => {
   }
 });
 
-ipcMain.handle('update server', async () => {
+ipcMain.handle('update server', async (_, password: string) => {
+  if (createHash('sha512').update(password).digest('hex') !== restore_data_password_hash) {
+    win?.webContents.send('update server ended', {
+      status: 'error',
+      message: 'Невірний пароль'
+    } as CommandRunMessage);
+    return;
+  }
+
   try {
     win?.webContents.send('update server progress', 'Створення резервної копії...');
     await run('command', 'make_dump.ps1');

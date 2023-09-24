@@ -8,12 +8,13 @@ import { StyledDialog, StyledTitle, AuthCodeWrapper } from "./styles";
 
 
 export interface IInfoDialogProps extends Pick<DialogProps, 'open'> {
-  onClose: (password: string | undefined) => void;
+  onClose?: (password: string | undefined) => void;
 }
 
 const InfoDialog: FunctionComponent<IInfoDialogProps> = ({
   open,
-  onClose,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onClose = () => {},
 }) => {
   const [password, setPassword] = useState<string>('');
 

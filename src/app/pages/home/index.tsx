@@ -51,8 +51,10 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
   const [dataRestoringMessage, setDataRestoringMessage] = useState<
     CommandRunMessage | undefined
   >();
-  const [restoreDatapasswordDialogOpen, setRestoreDataPasswordDialogOpen] =
+  const [passwordDialogOpen, setPasswordDialogOpen] =
     useState<boolean>(false);
+
+  const [passwordHandler, setPasswordHandler] = useState<'update server' | 'restore data' | undefined>();
 
   const handleAddReceivingButtonClick = () => {
     navigate("/receivings", { state: { addReceiving: true } });
@@ -64,16 +66,30 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
   };
 
   const handleUpdateServerButtonClick = () => {
-    setServerUpdating("loading");
-    ipcRenderer.invoke("update server");
+    setPasswordDialogOpen(true);
+    setPasswordHandler('update server');
+  };
+
+  const handleUpdateServerPasswordProvided = (password: string | undefined) => {
+    setPasswordDialogOpen(false);
+    setPasswordHandler(undefined);
+
+    if (password) {
+      setServerUpdating('loading');
+      setServerUpdating("loading");
+      ipcRenderer.invoke("update server", password);
+    }
   };
 
   const handleRestoreDataButtonClick = () => {
-    setRestoreDataPasswordDialogOpen(true);
+    setPasswordDialogOpen(true);
+    setPasswordHandler('restore data');
   };
 
   const handleRestoreDataPasswordProvided = (password: string | undefined) => {
-    setRestoreDataPasswordDialogOpen(false);
+    console.log('HJERE');
+    setPasswordDialogOpen(false);
+    setPasswordHandler(undefined);
 
     if (password) {
       setDataRestoring("loading");
@@ -145,6 +161,11 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
     };
   }, []);
 
+  const passwordHandlers = {
+    'update server': handleUpdateServerPasswordProvided,
+    'restore data': handleRestoreDataPasswordProvided
+  }
+
   return (
     <>
       <Backdrop
@@ -194,8 +215,8 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
         }}
       />
       <PasswordDialog
-        open={restoreDatapasswordDialogOpen}
-        onClose={handleRestoreDataPasswordProvided}
+        open={passwordDialogOpen}
+        onClose={passwordHandler && passwordHandlers[passwordHandler]}
       />
       <Header title={name} />
       <HomeContainer>
