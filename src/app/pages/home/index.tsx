@@ -291,7 +291,7 @@ const Home: FunctionComponent<IPageProps> = ({ name }) => {
           <Grid item xs={2}>
             <StatPlate
               label="Закуплено"
-              value={stats?.totalWeight || 0}
+              value={+(stats?.totalWeight.toFixed(2) || 0)}
               unit="кг"
             />
           </Grid>
