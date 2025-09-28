@@ -77,6 +77,7 @@ const Receivings: FunctionComponent<IPageProps> = ({ name }) => {
   const handleCreateReceivingButtonClick = () => {
     setDialogMode('create');
     setDialogOpen(true);
+    setClient(chosenClient);
   };
 
   const handleDialogCancel = () => {
